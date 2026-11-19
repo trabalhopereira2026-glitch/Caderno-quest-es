@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Caderno de Questões</title>
+  <title>Caderno de Questões - INFRAÇÕES CTB</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -32,7 +32,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      padding: 12px 12px 88px 12px;
+      padding: 12px 12px 92px 12px;
       line-height: 1.5;
     }
 
@@ -58,7 +58,7 @@
     }
 
     header h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       letter-spacing: -0.01em;
     }
 
@@ -84,7 +84,7 @@
 
     .tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 6px;
     }
 
@@ -92,10 +92,10 @@
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 8px;
+      padding: 10px 6px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       text-align: center;
     }
@@ -144,7 +144,7 @@
       }
     }
 
-    select, input[type="text"], textarea {
+    select, input[type="text"], input[type="number"], textarea {
       width: 100%;
       background: var(--card);
       color: var(--text);
@@ -171,6 +171,20 @@
       font-size: 0.8rem;
       color: var(--muted);
       margin-bottom: 12px;
+    }
+
+    .progress-counter {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 2px;
+    }
+
+    .progress-counter span {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
     }
 
     .badge {
@@ -219,7 +233,7 @@
       transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
       display: flex;
       gap: 12px;
-      align-items: flex-start;
+      align-items: center;
     }
 
     .option-btn:active:not(:disabled) {
@@ -243,15 +257,14 @@
 
     .option-letter {
       font-weight: 700;
-      min-width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      background: rgba(148, 163, 184, 0.14);
+      min-width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.16);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
-      margin-top: 1px;
       flex-shrink: 0;
     }
 
@@ -274,7 +287,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(8px);
       border-top: 1px solid var(--border);
       padding: 10px 12px;
@@ -285,7 +298,7 @@
       max-width: 760px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: auto auto 1fr;
+      grid-template-columns: auto 1fr auto auto;
       gap: 8px;
       align-items: center;
     }
@@ -294,12 +307,12 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 12px 16px;
-      min-height: 46px;
+      padding: 11px 14px;
+      min-height: 44px;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-      font-size: 0.94rem;
+      font-size: 0.9rem;
       text-align: center;
     }
 
@@ -309,8 +322,9 @@
     }
 
     .btn.secondary {
-      background: #334155;
-      padding: 12px 13px;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      padding: 11px 12px;
     }
 
     .btn.danger {
@@ -319,6 +333,160 @@
 
     .hidden {
       display: none !important;
+    }
+
+    /* Estilos da aba Desempenho inspirados no modelo */
+    .period-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+
+    .period-btn {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      padding: 9px 6px;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .period-btn.active {
+      background: #0f766e;
+      color: #fff;
+    }
+
+    .perf-summary-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: 10px 0;
+    }
+
+    .donut-ring {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: conic-gradient(var(--danger) 0% 100%);
+    }
+
+    .donut-ring::before {
+      content: "";
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--card);
+      position: absolute;
+    }
+
+    .donut-value {
+      position: relative;
+      z-index: 1;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+
+    .perf-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 165px;
+    }
+
+    .perf-metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.98rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .dot.resolvidas { background: #e2e8f0; }
+    .dot.certas { background: #3b82f6; }
+    .dot.erradas { background: #ef4444; }
+
+    .evolution-bars {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 10px;
+      align-items: end;
+      height: 140px;
+      margin-top: 14px;
+      padding: 8px 4px 0;
+    }
+
+    .evo-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .evo-track {
+      width: 10px;
+      height: 100%;
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 999px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .evo-fill {
+      width: 100%;
+      background: var(--primary);
+      border-radius: 999px;
+      transition: height 0.25s ease;
+    }
+
+    .evo-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* Modal Ir para questão */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.78);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 40;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 380px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
     }
 
     textarea {
@@ -345,14 +513,15 @@
   <div class="container">
     <header>
       <div class="top-row">
-        <h1>Caderno de Questões</h1>
-        <label class="auto-toggle" title="Avança automaticamente após responder">
+        <h1>INFRAÇÕES CTB</h1>
+        <label class="auto-toggle" title="Avança automaticamente em 3s após responder">
           <input type="checkbox" id="auto-next" onchange="salvarPreferencias()" />
-          <span>Auto-avançar</span>
+          <span>Auto-avançar (3s)</span>
         </label>
       </div>
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('estudar', this)">Estudar</button>
+        <button class="tab-btn active" onclick="switchTab('estudar', this)">Questões</button>
+        <button class="tab-btn" onclick="switchTab('desempenho', this)">Desempenho</button>
         <button class="tab-btn" onclick="switchTab('importar', this)">Importar</button>
         <button class="tab-btn" onclick="switchTab('gerenciar', this)">Backup</button>
       </div>
@@ -361,19 +530,19 @@
     <section id="tab-estudar">
       <div class="stats-bar">
         <div class="stat-box"><span>Total</span><strong id="stat-total">0</strong></div>
-        <div class="stat-box"><span>Feitas</span><strong id="stat-respondidas">0</strong></div>
-        <div class="stat-box"><span>Acertos</span><strong id="stat-acertos" style="color: var(--success)">0</strong></div>
-        <div class="stat-box"><span>Taxa</span><strong id="stat-taxa">0%</strong></div>
+        <div class="stat-box"><span>Não Feitas</span><strong id="stat-nao-feitas">0</strong></div>
+        <div class="stat-box"><span>Certas</span><strong id="stat-acertos" style="color: var(--success)">0</strong></div>
+        <div class="stat-box"><span>Erradas</span><strong id="stat-taxa" style="color: var(--danger)">0</strong></div>
       </div>
 
       <div class="filters">
         <select id="filter-materia" onchange="aplicarFiltros()">
-          <option value="TODAS">Todas as Matérias</option>
+          <option value="TODAS">INFRAÇÕES CTB</option>
         </select>
         <select id="filter-status" onchange="aplicarFiltros()">
-          <option value="TODAS">Todas as Questões</option>
-          <option value="NAO_RESPONDIDAS">Não Respondidas</option>
+          <option value="NAO_RESPONDIDAS">Somente Não Feitas (Sem Repetir)</option>
           <option value="ERRADAS">Somente Erradas (Revisão)</option>
+          <option value="TODAS">Todas as Questões</option>
         </select>
       </div>
 
@@ -381,10 +550,59 @@
 
       <div class="bottom-bar" id="quiz-bottom-bar">
         <div class="bottom-bar-inner">
-          <button class="btn secondary" id="btn-prev" onclick="navegar(-1)">←</button>
-          <button class="btn secondary" id="btn-next" onclick="navegar(1)">→</button>
+          <button class="btn secondary" id="btn-prev" onclick="navegar(-1)">‹ Anterior</button>
+          <button class="btn secondary" id="btn-goto" onclick="abrirModalIrPara()">Ir para questão</button>
+          <button class="btn secondary" id="btn-next" onclick="navegar(1)">Próximo ›</button>
           <button class="btn" id="btn-responder" onclick="confirmarResposta()">Responder</button>
         </div>
+      </div>
+    </section>
+
+    <section id="tab-desempenho" class="hidden">
+      <div class="period-tabs">
+        <button class="period-btn active" data-period="HOJE" onclick="selecionarPeriodo('HOJE', this)">Hoje</button>
+        <button class="period-btn" data-period="7D" onclick="selecionarPeriodo('7D', this)">7 dias</button>
+        <button class="period-btn" data-period="30D" onclick="selecionarPeriodo('30D', this)">30 dias</button>
+        <button class="period-btn" data-period="SEMPRE" onclick="selecionarPeriodo('SEMPRE', this)">Sempre</button>
+      </div>
+
+      <div class="card" id="perf-summary-card">
+        <div id="perf-empty-msg" style="text-align:center; margin-bottom:14px;">
+          <h2 style="font-size:1.1rem; margin-bottom:4px;">Pratique questões agora mesmo!</h2>
+          <p style="color:var(--muted); font-size:0.88rem;">Você não resolveu questões nesse período. Altere sua busca ou resolva novas questões.</p>
+        </div>
+        <div class="perf-summary-grid">
+          <div class="donut-ring" id="perf-donut">
+            <div class="donut-value" id="perf-pct">0%</div>
+          </div>
+          <div class="perf-metrics">
+            <div class="perf-metric-row">
+              <span><i class="dot resolvidas"></i>Resolvidas</span>
+              <strong id="perf-resolvidas">0</strong>
+            </div>
+            <div class="perf-metric-row">
+              <span><i class="dot certas"></i>Certas</span>
+              <strong id="perf-certas">0</strong>
+            </div>
+            <div class="perf-metric-row">
+              <span><i class="dot erradas"></i>Erradas</span>
+              <strong id="perf-erradas">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <h2 style="font-size:1.05rem;">Sua evolução <span id="perf-evo-title">hoje</span></h2>
+          <span style="font-size:0.78rem; color:var(--muted);" id="perf-evo-sub">00h - 23h</span>
+        </div>
+        <div class="evolution-bars" id="perf-evolution-bars"></div>
+      </div>
+
+      <div class="stack-btns">
+        <button class="btn" onclick="irParaModoRevisao('NAO_RESPONDIDAS')">Praticar Somente Questões Não Feitas</button>
+        <button class="btn secondary" onclick="irParaModoRevisao('ERRADAS')">Revisar Somente Questões Que Errei</button>
       </div>
     </section>
 
@@ -395,17 +613,16 @@
       </p>
       <textarea id="json-input" placeholder='[
   {
-    "materia": "Direito Constitucional",
-    "assunto": "Direitos Fundamentais",
-    "enunciado": "Texto da pergunta...",
-    "alternativas": ["A...", "B...", "C...", "D..."],
-    "correta": 0,
-    "comentario": "Explicação do gabarito..."
+    "materia": "INFRAÇÕES CTB",
+    "assunto": "Art. 169",
+    "enunciado": "Dirigir sem atenção ou sem os cuidados indispensáveis à segurança constitui infração de natureza:",
+    "alternativas": ["Grave", "Leve", "Gravíssima", "Média"],
+    "correta": 1,
+    "comentario": "Art. 169 do CTB: Infração leve."
   }
 ]'></textarea>
       <div class="stack-btns">
         <button class="btn" onclick="importarJSON()">Adicionar ao Banco</button>
-        <button class="btn secondary" onclick="preencherExemplo()">Inserir Exemplo de Teste</button>
       </div>
       <div id="import-msg" class="msg"></div>
     </section>
@@ -413,104 +630,255 @@
     <section id="tab-gerenciar" class="card hidden">
       <h2>Backup e Controle</h2>
       <p style="color: var(--muted); font-size: 0.88rem; margin: 8px 0 14px;">
-        Salve uma cópia das suas questões e estatísticas para não perder nada ao trocar de navegador.
+        Salve uma cópia das suas questões e estatísticas ou reembaralhe todas as questões de <strong>INFRAÇÕES CTB</strong>.
       </p>
       <div class="stack-btns">
         <button class="btn" onclick="exportarBackup()">Baixar Backup (.json)</button>
         <button class="btn secondary" onclick="resetarHistorico()">Zerar Histórico de Acertos/Erros</button>
-        <button class="btn danger" onclick="resetarTudo()">Restaurar Padrão de Fábrica</button>
+        <button class="btn danger" onclick="resetarTudo()">Carregar Banco Completo INFRAÇÕES CTB</button>
       </div>
       <div id="backup-msg" class="msg"></div>
     </section>
   </div>
 
+  <!-- Modal Ir para Questão -->
+  <div id="modal-goto" class="modal-backdrop hidden" onclick="fecharModalIrPara(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3 style="font-size:1rem; margin-bottom:8px;">Ir para questão</h3>
+      <p style="font-size:0.84rem; color:var(--muted); margin-bottom:10px;" id="goto-range-info"></p>
+      <input type="number" id="goto-input" min="1" placeholder="Número da questão" onkeydown="if(event.key==='Enter') confirmarIrPara()" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;">
+        <button class="btn secondary" onclick="fecharModalIrPara()">Cancelar</button>
+        <button class="btn" onclick="confirmarIrPara()">Ir</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const QUESTOES_INICIAIS = [
-      {
-        id: "q1",
-        materia: "Direito Constitucional",
-        assunto: "Direitos e Garantias Fundamentais",
-        enunciado: "De acordo com a Constituição Federal de 1988, a casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, SALVO em caso de:",
-        alternativas: [
-          "Flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial.",
-          "Determinação judicial a qualquer hora do dia ou da noite, independentemente de flagrante.",
-          "Investigação policial preliminar autorizada pelo delegado de polícia durante o período diurno.",
-          "Suspeita fundada de crime permanente, apenas durante o período noturno."
-        ],
-        correta: 0,
-        comentario: "Art. 5º, XI, CF/88: A casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, salvo em caso de flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial."
-      },
-      {
-        id: "q2",
-        materia: "Legislação de Trânsito",
-        assunto: "Normas de Circulação",
-        enunciado: "Segundo o Código de Trânsito Brasileiro (CTB), quando veículos, transitando por fluxos que se cruzem, se aproximarem de local não sinalizado, terá preferência de passagem:",
-        alternativas: [
-          "O veículo de maior porte, independentemente da via em que esteja.",
-          "No caso de rotatória, aquele que estiver entrando na rotatória.",
-          "No caso de apenas um fluxo ser proveniente de rodovia, aquele que estiver circulando por ela.",
-          "Nos demais casos, o que vier pela esquerda do condutor."
-        ],
-        correta: 2,
-        comentario: "Art. 29, III, CTB: Tem preferência: a) no caso de apenas um fluxo ser proveniente de rodovia, aquele que estiver circulando por ela; b) no caso de rotatória, aquele que estiver circulando por ela; c) nos demais casos, o que vier pela direita do condutor."
-      },
-      {
-        id: "q3",
-        materia: "Informática",
-        assunto: "Segurança da Informação",
-        enunciado: "O tipo de malware que sequestra os dados do usuário por meio de criptografia e exige o pagamento de um resgate para liberar o acesso é conhecido como:",
-        alternativas: [
-          "Spyware",
-          "Ransomware",
-          "Adware",
-          "Rootkit"
-        ],
-        correta: 1,
-        comentario: "Ransomware bloqueia o acesso ao sistema ou criptografa arquivos, exigindo pagamento para fornecer a chave de descriptografia."
-      }
+      { id: "ctb_162_1", materia: "INFRAÇÕES CTB", assunto: "Art. 162, I — Habilitação", enunciado: "Dirigir veículo sem possuir Carteira Nacional de Habilitação, Permissão para Dirigir ou Autorização para Conduzir Ciclomotor configura infração de natureza:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 162, I, CTB: Infração gravíssima; penalidade de multa (3x) e retenção do veículo até apresentação de condutor habilitado." },
+      { id: "ctb_162_2", materia: "INFRAÇÕES CTB", assunto: "Art. 162, II — Habilitação", enunciado: "Dirigir veículo com CNH, Permissão para Dirigir ou ACC cassada ou com suspensão do direito de dirigir constitui infração:", alternativas: ["Leve", "Gravíssima", "Grave", "Média"], correta: 1, comentario: "Art. 162, II, CTB: Infração gravíssima; multa (3x), recolhimento do documento e retenção do veículo." },
+      { id: "ctb_162_3", materia: "INFRAÇÕES CTB", assunto: "Art. 162, III — Habilitação", enunciado: "Dirigir veículo com CNH ou Permissão para Dirigir de categoria diferente da do veículo que esteja conduzindo é infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 3, comentario: "Art. 162, III, CTB: Infração gravíssima; multa (2x) e retenção do veículo." },
+      { id: "ctb_162_5", materia: "INFRAÇÕES CTB", assunto: "Art. 162, V — Habilitação", enunciado: "Dirigir veículo com Carteira Nacional de Habilitação vencida há mais de 30 (trinta) dias configura infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 162, V, CTB: Infração gravíssima; multa e retenção do veículo." },
+      { id: "ctb_162_6", materia: "INFRAÇÕES CTB", assunto: "Art. 162, VI — Restrições Médicas", enunciado: "Dirigir veículo sem usar lentes corretoras de visão, aparelho auxiliar de audição, prótese física ou adaptações impostas na licença constitui infração:", alternativas: ["Média", "Gravíssima", "Leve", "Grave"], correta: 1, comentario: "Art. 162, VI, CTB: Infração gravíssima; multa e retenção do veículo." },
+      { id: "ctb_162_7", materia: "INFRAÇÕES CTB", assunto: "Art. 162, VII — Cursos Especializados", enunciado: "Dirigir veículo sem possuir os cursos especializados ou específicos obrigatórios configura infração:", alternativas: ["Grave", "Leve", "Média", "Gravíssima"], correta: 3, comentario: "Art. 162, VII, CTB: Infração gravíssima; multa e retenção do veículo." },
+      { id: "ctb_165", materia: "INFRAÇÕES CTB", assunto: "Art. 165 — Álcool/Substâncias", enunciado: "Dirigir sob a influência de álcool ou de qualquer outra substância psicoativa que determine dependência constitui infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 165, CTB: Infração gravíssima; multa (10x) e suspensão do direito de dirigir por 12 meses." },
+      { id: "ctb_165_a", materia: "INFRAÇÕES CTB", assunto: "Art. 165-A — Recusa ao Teste", enunciado: "Recusar-se a ser submetido a teste, exame clínico, perícia ou outro procedimento que permita certificar influência de álcool ou substância psicoativa é infração:", alternativas: ["Leve", "Média", "Gravíssima", "Grave"], correta: 2, comentario: "Art. 165-A, CTB: Infração gravíssima; multa (10x) e suspensão do direito de dirigir por 12 meses." },
+      { id: "ctb_165_b", materia: "INFRAÇÕES CTB", assunto: "Art. 165-B — Exame Toxicológico", enunciado: "Dirigir veículo sem realizar o exame toxicológico previsto no art. 148-A do CTB configura infração:", alternativas: ["Gravíssima", "Grave", "Leve", "Média"], correta: 0, comentario: "Art. 165-B, CTB: Infração gravíssima; multa (5x)." },
+      { id: "ctb_165_c", materia: "INFRAÇÕES CTB", assunto: "Art. 165-C — Exame Toxicológico Positivo", enunciado: "Dirigir veículo tendo obtido resultado positivo no exame toxicológico previsto no caput do art. 148-A do CTB constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 165-C, CTB: Infração gravíssima; multa (5x)." },
+      { id: "ctb_165_d", materia: "INFRAÇÕES CTB", assunto: "Art. 165-D — Toxicológico Periódico", enunciado: "Deixar de realizar o exame toxicológico periódico (art. 148-A, § 2º) após 30 dias do vencimento do prazo estabelecido configura infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 165-D, CTB: Infração gravíssima; multa (5x)." },
+      { id: "ctb_166", materia: "INFRAÇÕES CTB", assunto: "Art. 166 — Entrega de Direção", enunciado: "Confiar ou entregar a direção de veículo a pessoa que, mesmo habilitada, por seu estado físico ou psíquico não estiver em condições de dirigi-lo com segurança é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 3, comentario: "Art. 166, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_167", materia: "INFRAÇÕES CTB", assunto: "Art. 167 — Cinto de Segurança", enunciado: "Deixar o condutor ou passageiro de usar o cinto de segurança constitui infração de natureza:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 167, CTB: Infração grave; multa e retenção do veículo até colocação do cinto." },
+      { id: "ctb_168", materia: "INFRAÇÕES CTB", assunto: "Art. 168 — Transporte de Crianças", enunciado: "Transportar crianças em veículo automotor sem observância das normas de segurança especiais estabelecidas no CTB configura infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 168, CTB: Infração gravíssima; multa e retenção do veículo até saneamento." },
+      { id: "ctb_169", materia: "INFRAÇÕES CTB", assunto: "Art. 169 — Direção sem Atenção", enunciado: "Dirigir sem atenção ou sem os cuidados indispensáveis à segurança constitui infração de natureza:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 2, comentario: "Art. 169, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_170", materia: "INFRAÇÕES CTB", assunto: "Art. 170 — Ameaçar Pedestres/Veículos", enunciado: "Dirigir ameaçando os pedestres que estejam atravessando a via pública, ou os demais veículos, configura infração:", alternativas: ["Grave", "Leve", "Gravíssima", "Média"], correta: 2, comentario: "Art. 170, CTB: Infração gravíssima; multa, suspensão do direito de dirigir, retenção do veículo e recolhimento da CNH." },
+      { id: "ctb_171", materia: "INFRAÇÕES CTB", assunto: "Art. 171 — Arremessar Água/Detritos", enunciado: "Usar o veículo para arremessar, sobre os pedestres ou veículos, água ou detritos constitui infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 171, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_172", materia: "INFRAÇÕES CTB", assunto: "Art. 172 — Atirar/Abandonar Objetos", enunciado: "Atirar do veículo ou abandonar na via objetos ou substâncias configura infração de natureza:", alternativas: ["Grave", "Gravíssima", "Leve", "Média"], correta: 3, comentario: "Art. 172, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_173", materia: "INFRAÇÕES CTB", assunto: "Art. 173 — Disputar Corrida", enunciado: "Disputar corrida em via pública constitui infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 173, CTB: Infração gravíssima; multa (10x), suspensão do direito de dirigir e apreensão/remoção do veículo." },
+      { id: "ctb_174", materia: "INFRAÇÕES CTB", assunto: "Art. 174 — Competição não Autorizada", enunciado: "Promover na via competição, eventos organizados, exibição e demonstração de perícia em manobra de veículo, ou deles participar como condutor sem permissão, é infração:", alternativas: ["Média", "Gravíssima", "Grave", "Leve"], correta: 1, comentario: "Art. 174, CTB: Infração gravíssima; multa (10x) e suspensão do direito de dirigir." },
+      { id: "ctb_175", materia: "INFRAÇÕES CTB", assunto: "Art. 175 — Manobra Perigosa", enunciado: "Utilizar-se de veículo para demonstrar ou exibir manobra perigosa, mediante arrancada brusca, derrapagem ou frenagem com deslizamento de pneus, é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 175, CTB: Infração gravíssima; multa (10x) e suspensão do direito de dirigir." },
+      { id: "ctb_176", materia: "INFRAÇÕES CTB", assunto: "Art. 176 — Sinistro com Vítima", enunciado: "Deixar o condutor envolvido em sinistro com vítima de prestar socorro, evitar perigo, preservar o local, remover o veículo quando determinado ou identificar-se ao policial é infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 176, CTB: Infração gravíssima; multa (5x) e suspensão do direito de dirigir." },
+      { id: "ctb_177", materia: "INFRAÇÕES CTB", assunto: "Art. 177 — Omissão a Pedido de Agente", enunciado: "Deixar o condutor de prestar socorro à vítima de sinistro de trânsito quando solicitado pela autoridade e seus agentes constitui infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 177, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_178", materia: "INFRAÇÕES CTB", assunto: "Art. 178 — Sinistro sem Vítima", enunciado: "Deixar o condutor envolvido em sinistro sem vítima de adotar providências para remover o veículo do local, quando necessário à segurança e fluidez, é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 178, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_179_1", materia: "INFRAÇÕES CTB", assunto: "Art. 179, I — Reparo em Rodovia", enunciado: "Fazer ou deixar que se faça reparo em veículo em pista de rolamento de rodovias e vias de trânsito rápido (salvo impedimento absoluto e sinalizado) é infração:", alternativas: ["Gravíssima", "Média", "Leve", "Grave"], correta: 3, comentario: "Art. 179, I, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_179_2", materia: "INFRAÇÕES CTB", assunto: "Art. 179, II — Reparo nas Demais Vias", enunciado: "Fazer ou deixar que se faça reparo em veículo na via pública nas demais vias (fora de rodovias e vias de trânsito rápido) constitui infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 0, comentario: "Art. 179, II, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_180", materia: "INFRAÇÕES CTB", assunto: "Art. 180 — Pane Seca", enunciado: "Ter seu veículo imobilizado na via por falta de combustível configura infração de natureza:", alternativas: ["Grave", "Leve", "Média", "Gravíssima"], correta: 2, comentario: "Art. 180, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_1", materia: "INFRAÇÕES CTB", assunto: "Art. 181, I — Estacionamento", enunciado: "Estacionar o veículo nas esquinas e a menos de cinco metros do bordo do alinhamento da via transversal constitui infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 181, I, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_2", materia: "INFRAÇÕES CTB", assunto: "Art. 181, II — Estacionamento", enunciado: "Estacionar o veículo afastado da guia da calçada (meio-fio) de cinquenta centímetros a um metro é infração:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 3, comentario: "Art. 181, II, CTB: Infração leve; multa e remoção do veículo." },
+      { id: "ctb_181_3", materia: "INFRAÇÕES CTB", assunto: "Art. 181, III — Estacionamento", enunciado: "Estacionar o veículo afastado da guia da calçada (meio-fio) a mais de um metro configura infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 181, III, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_4", materia: "INFRAÇÕES CTB", assunto: "Art. 181, IV — Estacionamento", enunciado: "Estacionar o veículo em desacordo com as posições estabelecidas no CTB constitui infração:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 2, comentario: "Art. 181, IV, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_5", materia: "INFRAÇÕES CTB", assunto: "Art. 181, V — Estacionamento", enunciado: "Estacionar o veículo na pista de rolamento das estradas, das rodovias, das vias de trânsito rápido e das vias dotadas de acostamento é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 181, V, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_181_6", materia: "INFRAÇÕES CTB", assunto: "Art. 181, VI — Estacionamento", enunciado: "Estacionar junto ou sobre hidrantes de incêndio, registro de água ou tampas de poços de visita devidamente identificados é infração:", alternativas: ["Grave", "Leve", "Gravíssima", "Média"], correta: 3, comentario: "Art. 181, VI, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_7", materia: "INFRAÇÕES CTB", assunto: "Art. 181, VII — Estacionamento", enunciado: "Estacionar o veículo nos acostamentos, salvo motivo de força maior, constitui infração de natureza:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 0, comentario: "Art. 181, VII, CTB: Infração leve; multa e remoção do veículo." },
+      { id: "ctb_181_8", materia: "INFRAÇÕES CTB", assunto: "Art. 181, VIII — Estacionamento", enunciado: "Estacionar no passeio, sobre faixa de pedestre, ciclovia/ciclofaixa, ilhas, refúgios, canteiros centrais, divisores de pista, marcas de canalização, gramados ou jardim público é infração:", alternativas: ["Média", "Gravíssima", "Grave", "Leve"], correta: 2, comentario: "Art. 181, VIII, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_9", materia: "INFRAÇÕES CTB", assunto: "Art. 181, IX — Estacionamento", enunciado: "Estacionar o veículo onde houver guia de calçada (meio-fio) rebaixada destinada à entrada ou saída de veículos constitui infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 181, IX, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_10", materia: "INFRAÇÕES CTB", assunto: "Art. 181, X — Estacionamento", enunciado: "Estacionar o veículo impedindo a movimentação de outro veículo configura infração de natureza:", alternativas: ["Gravíssima", "Leve", "Grave", "Média"], correta: 3, comentario: "Art. 181, X, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_11", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XI — Estacionamento", enunciado: "Estacionar o veículo ao lado de outro veículo em fila dupla constitui infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 0, comentario: "Art. 181, XI, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_12", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XII — Estacionamento", enunciado: "Estacionar na área de cruzamento de vias, prejudicando a circulação de veículos e pedestres, é infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 181, XII, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_13", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XIII — Estacionamento", enunciado: "Estacionar em ponto de embarque/desembarque de transporte coletivo (ou a menos de 10m antes e depois do marco) constitui infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 1, comentario: "Art. 181, XIII, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_14", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XIV — Estacionamento", enunciado: "Estacionar o veículo nos viadutos, pontes e túneis configura infração de natureza:", alternativas: ["Gravíssima", "Média", "Leve", "Grave"], correta: 3, comentario: "Art. 181, XIV, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_15", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XV — Estacionamento", enunciado: "Estacionar o veículo na contramão de direção constitui infração:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 0, comentario: "Art. 181, XV, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_181_16", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XVI — Estacionamento", enunciado: "Estacionar em aclive ou declive, sem estar devidamente freado e sem calço de segurança (veículo com PBT > 3.500 kg), é infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 181, XVI, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_17", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XVII — Estacionamento", enunciado: "Estacionar em desacordo com as condições regulamentadas especificamente pela sinalização (placa — Estacionamento Regulamentado) é infração:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 1, comentario: "Art. 181, XVII, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_18", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XVIII — Estacionamento", enunciado: "Estacionar em locais e horários proibidos especificamente pela sinalização (placa — Proibido Estacionar) constitui infração:", alternativas: ["Grave", "Gravíssima", "Leve", "Média"], correta: 3, comentario: "Art. 181, XVIII, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_181_19", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XIX — Estacionamento", enunciado: "Estacionar em locais e horários de estacionamento e parada proibidos pela sinalização (placa — Proibido Parar e Estacionar) é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 181, XIX, CTB: Infração grave; multa e remoção do veículo." },
+      { id: "ctb_181_20", materia: "INFRAÇÕES CTB", assunto: "Art. 181, XX — Vagas Reservadas", enunciado: "Estacionar nas vagas reservadas às pessoas com deficiência ou idosos, sem credencial que comprove tal condição, constitui infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 181, XX, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_182_1", materia: "INFRAÇÕES CTB", assunto: "Art. 182, I — Parada", enunciado: "Parar o veículo nas esquinas e a menos de cinco metros do bordo do alinhamento da via transversal constitui infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 182, I, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_182_2", materia: "INFRAÇÕES CTB", assunto: "Art. 182, II — Parada", enunciado: "Parar o veículo afastado da guia da calçada (meio-fio) de cinquenta centímetros a um metro é infração:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 3, comentario: "Art. 182, II, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_182_3", materia: "INFRAÇÕES CTB", assunto: "Art. 182, III — Parada", enunciado: "Parar o veículo afastado da guia da calçada (meio-fio) a mais de um metro constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 182, III, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_182_4", materia: "INFRAÇÕES CTB", assunto: "Art. 182, IV — Parada", enunciado: "Parar o veículo em desacordo com as posições estabelecidas no CTB configura infração de natureza:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 2, comentario: "Art. 182, IV, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_182_5", materia: "INFRAÇÕES CTB", assunto: "Art. 182, V — Parada", enunciado: "Parar o veículo na pista de rolamento das estradas, rodovias, vias de trânsito rápido e demais vias dotadas de acostamento é infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 1, comentario: "Art. 182, V, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_182_6", materia: "INFRAÇÕES CTB", assunto: "Art. 182, VI — Parada", enunciado: "Parar o veículo no passeio ou sobre faixa destinada a pedestres, nas ilhas, refúgios, canteiros centrais, divisores de pista e marcas de canalização é infração:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 3, comentario: "Art. 182, VI, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_182_7", materia: "INFRAÇÕES CTB", assunto: "Art. 182, VII–X — Parada", enunciado: "Parar o veículo na área de cruzamento, nos viadutos/pontes/túneis, na contramão de direção ou onde houver placa 'Proibido Parar' constitui infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 0, comentario: "Art. 182, VII, VIII, IX e X, CTB: Todas essas hipóteses configuram infração média." },
+      { id: "ctb_182_11", materia: "INFRAÇÕES CTB", assunto: "Art. 182, XI — Parada em Ciclovia", enunciado: "Parar o veículo sobre ciclovia ou ciclofaixa configura infração de natureza:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 182, XI, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_183", materia: "INFRAÇÕES CTB", assunto: "Art. 183 — Faixa no Semáforo", enunciado: "Parar o veículo sobre a faixa de pedestres na mudança de sinal luminoso constitui infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 183, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_184_1", materia: "INFRAÇÕES CTB", assunto: "Art. 184, I — Faixa Exclusiva Direita", enunciado: "Transitar com o veículo na faixa ou pista da direita regulamentada como de circulação exclusiva para determinado tipo de veículo (exceto acesso/conversão) é infração:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 3, comentario: "Art. 184, I, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_184_2", materia: "INFRAÇÕES CTB", assunto: "Art. 184, II — Faixa Exclusiva Esquerda", enunciado: "Transitar com o veículo na faixa ou pista da esquerda regulamentada como de circulação exclusiva para determinado tipo de veículo é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 184, II, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_184_3", materia: "INFRAÇÕES CTB", assunto: "Art. 184, III — Faixa de Transporte Público", enunciado: "Transitar na faixa ou via de trânsito exclusivo destinada aos veículos de transporte público coletivo de passageiros (salvo força maior/autorização) é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 184, III, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_185", materia: "INFRAÇÕES CTB", assunto: "Art. 185 — Conservação de Faixa", enunciado: "Quando o veículo estiver em movimento, deixar de conservá-lo na faixa a ele destinada ou nas faixas da direita (veículos lentos e de maior porte) é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 185, I e II, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_186_1", materia: "INFRAÇÕES CTB", assunto: "Art. 186, I — Contramão Duplo Sentido", enunciado: "Transitar pela contramão de direção em vias com duplo sentido de circulação (exceto para ultrapassar pelo tempo necessário) constitui infração:", alternativas: ["Gravíssima", "Média", "Leve", "Grave"], correta: 3, comentario: "Art. 186, I, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_186_2", materia: "INFRAÇÕES CTB", assunto: "Art. 186, II — Contramão Sentido Único", enunciado: "Transitar pela contramão de direção em vias com sinalização de regulamentação de sentido único de circulação é infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 186, II, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_187_188", materia: "INFRAÇÕES CTB", assunto: "Arts. 187 e 188 — Circulação", enunciado: "Transitar em locais e horários não permitidos pela regulamentação, ou transitar ao lado de outro veículo interrompendo ou perturbando o trânsito, é infração:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 2, comentario: "Arts. 187, I e 188, CTB: Ambos constituem infração média." },
+      { id: "ctb_189", materia: "INFRAÇÕES CTB", assunto: "Art. 189 — Veículos de Urgência", enunciado: "Deixar de dar passagem aos veículos precedidos de batedores, bombeiros, polícia, fiscalização de trânsito e ambulâncias em urgência (com alarme e luz intermitente) é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 189, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_190", materia: "INFRAÇÕES CTB", assunto: "Art. 190 — Seguir Veículo de Urgência", enunciado: "Seguir veículo em serviço de urgência, estando este com prioridade de passagem devidamente identificada por alarme sonoro e luz intermitente, é infração:", alternativas: ["Média", "Leve", "Gravíssima", "Grave"], correta: 3, comentario: "Art. 190, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_191", materia: "INFRAÇÕES CTB", assunto: "Art. 191 — Forçar Passagem", enunciado: "Forçar passagem entre veículos que, transitando em sentidos opostos, estejam na iminência de passar um pelo outro ao realizar ultrapassagem é infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 191, CTB: Infração gravíssima; multa (10x) e suspensão do direito de dirigir." },
+      { id: "ctb_192", materia: "INFRAÇÕES CTB", assunto: "Art. 192 — Distância de Segurança", enunciado: "Deixar de guardar distância de segurança lateral e frontal entre o seu veículo e os demais, bem como em relação ao bordo da pista, constitui infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 192, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_193", materia: "INFRAÇÕES CTB", assunto: "Art. 193 — Transitar em Calçadas/Canteiros", enunciado: "Transitar com o veículo em calçadas, passeios, passarelas, ciclovias, ciclofaixas, ilhas, canteiros centrais, acostamentos, marcas de canalização e gramados é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 193, CTB: Infração gravíssima; penalidade de multa (3x)." },
+      { id: "ctb_194_195_196", materia: "INFRAÇÕES CTB", assunto: "Arts. 194, 195 e 196 — Manobras e Ordens", enunciado: "Transitar em marcha à ré (fora de pequenas manobras), desobedecer às ordens do agente de trânsito ou deixar de indicar manobra com antecedência são infrações:", alternativas: ["Leves", "Médias", "Gravíssimas", "Graves"], correta: 3, comentario: "Arts. 194, 195 e 196, CTB: Todas são infrações de natureza grave." },
+      { id: "ctb_197_198_199", materia: "INFRAÇÕES CTB", assunto: "Arts. 197, 198 e 199 — Faixa e Passagem", enunciado: "Deixar de deslocar o veículo para a faixa adequada antes de manobrar, deixar de dar passagem pela esquerda quando solicitado ou ultrapassar pela direita (fora da exceção) são infrações:", alternativas: ["Médias", "Graves", "Leves", "Gravíssimas"], correta: 0, comentario: "Arts. 197, 198 e 199, CTB: Todas são infrações médias." },
+      { id: "ctb_200", materia: "INFRAÇÕES CTB", assunto: "Art. 200 — Transporte Coletivo/Escolar", enunciado: "Ultrapassar pela direita veículo de transporte coletivo ou de escolares parado para embarque ou desembarque de passageiros (sem refúgio de segurança) é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 200, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_201", materia: "INFRAÇÕES CTB", assunto: "Art. 201 — Distância de Bicicleta", enunciado: "Deixar de guardar a distância lateral de um metro e cinquenta centímetros (1,50 m) ao passar ou ultrapassar bicicleta constitui infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 201, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_202_203", materia: "INFRAÇÕES CTB", assunto: "Arts. 202 e 203 — Ultrapassagens Proibidas", enunciado: "Ultrapassar pelo acostamento, em interseções/passagens de nível, ou pela contramão em curvas, faixas de pedestre, pontes, túneis, fila parada ou faixa contínua amarela é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Arts. 202 e 203, CTB: Infração gravíssima; multa (5x)." },
+      { id: "ctb_204", materia: "INFRAÇÕES CTB", assunto: "Art. 204 — Parar no Acostamento para Cruzar", enunciado: "Deixar de parar o veículo no acostamento à direita para aguardar a oportunidade de cruzar a pista ou entrar à esquerda (onde não há retorno apropriado) é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 204, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_205", materia: "INFRAÇÕES CTB", assunto: "Art. 205 — Cortejo e Desfile", enunciado: "Ultrapassar veículo em movimento que integre cortejo, préstito, desfile e formações militares, salvo com autorização, constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 2, comentario: "Art. 205, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_206", materia: "INFRAÇÕES CTB", assunto: "Art. 206 — Operação de Retorno", enunciado: "Executar operação de retorno em locais proibidos, curvas, aclives, pontes, túneis, por cima de calçada/canteiro, entrando na contramão ou com prejuízo à segurança é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 206, I a V, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_207", materia: "INFRAÇÕES CTB", assunto: "Art. 207 — Conversão Proibida", enunciado: "Executar operação de conversão à direita ou à esquerda em locais proibidos pela sinalização constitui infração:", alternativas: ["Média", "Leve", "Gravíssima", "Grave"], correta: 3, comentario: "Art. 207, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_208", materia: "INFRAÇÕES CTB", assunto: "Art. 208 — Avanço de Sinal", enunciado: "Avançar o sinal vermelho do semáforo ou o de parada obrigatória (exceto livre conversão à direita sinalizada) constitui infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 208, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_209_209a", materia: "INFRAÇÕES CTB", assunto: "Arts. 209 e 209-A — Bloqueio, Pesagem e Pedágio", enunciado: "Transpor sem autorização bloqueio viário, deixar de adentrar áreas de pesagem ou evadir-se da cobrança de pedágio (rodovias/vias urbanas) são infrações:", alternativas: ["Gravíssimas", "Médias", "Graves", "Leves"], correta: 2, comentario: "Arts. 209 e 209-A, CTB: Infrações de natureza grave." },
+      { id: "ctb_210", materia: "INFRAÇÕES CTB", assunto: "Art. 210 — Bloqueio Viário Policial", enunciado: "Transpor, sem autorização, bloqueio viário policial configura infração de natureza:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 210, CTB: Infração gravíssima; multa, suspensão do direito de dirigir, remoção do veículo e recolhimento da CNH." },
+      { id: "ctb_211", materia: "INFRAÇÕES CTB", assunto: "Art. 211 — Ultrapassar Veículos em Fila", enunciado: "Ultrapassar veículos em fila parados em razão de sinal luminoso, cancela, bloqueio viário parcial ou obstáculo (exceto não motorizados) é infração:", alternativas: ["Média", "Leve", "Gravíssima", "Grave"], correta: 3, comentario: "Art. 211, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_212", materia: "INFRAÇÕES CTB", assunto: "Art. 212 — Linha Férrea", enunciado: "Deixar de parar o veículo antes de transpor linha férrea constitui infração de natureza:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 212, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_213_1", materia: "INFRAÇÕES CTB", assunto: "Art. 213, I — Agrupamento de Pessoas", enunciado: "Deixar de parar o veículo sempre que a marcha for interceptada por agrupamento de pessoas (préstitos, passeatas, desfiles) é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 213, I, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_213_2", materia: "INFRAÇÕES CTB", assunto: "Art. 213, II — Agrupamento de Veículos", enunciado: "Deixar de parar o veículo sempre que a marcha for interceptada por agrupamento de veículos (cortejos, formações militares) constitui infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 1, comentario: "Art. 213, II, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_214_1_3", materia: "INFRAÇÕES CTB", assunto: "Art. 214, I a III — Preferência ao Pedestre", enunciado: "Deixar de dar preferência a pedestre ou veículo não motorizado na faixa, que não concluiu travessia no sinal verde, ou a PcD, crianças, idosos e gestantes é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 214, I, II e III, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_214_4_5", materia: "INFRAÇÕES CTB", assunto: "Art. 214, IV e V — Travessia sem Faixa / Transversal", enunciado: "Deixar de dar preferência a pedestre/ciclista que já iniciou travessia (mesmo sem sinalização) ou que atravessa a via transversal para onde o veículo se dirige é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 0, comentario: "Art. 214, IV e V, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_215", materia: "INFRAÇÕES CTB", assunto: "Art. 215 — Preferência de Passagem", enunciado: "Deixar de dar preferência em interseção não sinalizada (rodovia, rotatória ou veículo da direita) ou onde houver placa 'Dê a Preferência' é infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 215, I e II, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_216_217", materia: "INFRAÇÕES CTB", assunto: "Arts. 216 e 217 — Áreas Lindeiras e Fila", enunciado: "Entrar ou sair de áreas lindeiras sem precaução, ou entrar/sair de fila de veículos estacionados sem dar preferência, são infrações de natureza:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Arts. 216 e 217, CTB: Ambas constituem infração média." },
+      { id: "ctb_218_1", materia: "INFRAÇÕES CTB", assunto: "Art. 218, I — Excesso de Velocidade (até 20%)", enunciado: "Transitar em velocidade superior à máxima permitida para o local em até 20% (vinte por cento) constitui infração:", alternativas: ["Grave", "Leve", "Gravíssima", "Média"], correta: 3, comentario: "Art. 218, I, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_218_2", materia: "INFRAÇÕES CTB", assunto: "Art. 218, II — Excesso de Velocidade (20% a 50%)", enunciado: "Transitar em velocidade superior à máxima permitida para o local em mais de 20% até 50% (cinquenta por cento) é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 0, comentario: "Art. 218, II, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_218_3", materia: "INFRAÇÕES CTB", assunto: "Art. 218, III — Excesso de Velocidade (> 50%)", enunciado: "Transitar em velocidade superior à máxima permitida para o local em mais de 50% (cinquenta por cento) configura infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 218, III, CTB: Infração gravíssima; multa (3x) e suspensão do direito de dirigir." },
+      { id: "ctb_219", materia: "INFRAÇÕES CTB", assunto: "Art. 219 — Velocidade Abaixo da Mínima", enunciado: "Transitar em velocidade inferior à metade da máxima estabelecida para a via, retardando ou obstruindo o trânsito (salvo faixa da direita ou clima/tráfego), é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 219, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_220_gravissima", materia: "INFRAÇÕES CTB", assunto: "Art. 220, I, XIII e XIV — Redução de Velocidade", enunciado: "Deixar de reduzir a velocidade ao aproximar-se de passeatas/aglomerações, ao ultrapassar ciclista, ou próximo a escolas, hospitais e estações de embarque é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 220, I, XIII e XIV, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_220_grave", materia: "INFRAÇÕES CTB", assunto: "Art. 220, II a XII — Redução de Velocidade", enunciado: "Deixar de reduzir a velocidade sob chuva/neblina, pavimento escorregadio, obras na pista, curvas de pequeno raio, declive ou interseção não sinalizada é infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 0, comentario: "Art. 220, II a XII, CTB: Todas essas hipóteses são infrações graves." },
+      { id: "ctb_221_222", materia: "INFRAÇÕES CTB", assunto: "Arts. 221 e 222 — Placas e Luz Intermitente", enunciado: "Portar placas em desacordo com o CONTRAN ou deixar veículo de emergência de manter ligada a iluminação intermitente no atendimento são infrações:", alternativas: ["Leves", "Graves", "Médias", "Gravíssimas"], correta: 2, comentario: "Arts. 221 e 222, CTB: Ambas constituem infração média." },
+      { id: "ctb_223", materia: "INFRAÇÕES CTB", assunto: "Art. 223 — Farol Desregulado / Ofuscamento", enunciado: "Transitar com o farol desregulado ou com o facho de luz alta de forma a perturbar a visão de outro condutor constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 223, CTB: Infração grave; multa e retenção do veículo para regularização." },
+      { id: "ctb_224", materia: "INFRAÇÕES CTB", assunto: "Art. 224 — Luz Alta em Via Iluminada", enunciado: "Fazer uso do facho de luz alta dos faróis em vias providas de iluminação pública configura infração de natureza:", alternativas: ["Média", "Grave", "Gravíssima", "Leve"], correta: 3, comentario: "Art. 224, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_225", materia: "INFRAÇÕES CTB", assunto: "Art. 225 — Sinalizar Remoção ou Carga", enunciado: "Deixar de sinalizar a via ou não manter luzes externas à noite ao remover veículo da pista, permanecer no acostamento ou em caso de carga derramada é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 225, I e II, CTB: Infração grave; penalidade de multa." },
+      { id: "ctb_226", materia: "INFRAÇÕES CTB", assunto: "Art. 226 — Retirar Sinalização Temporária", enunciado: "Deixar de retirar todo e qualquer objeto que tenha sido utilizado para sinalização temporária da via constitui infração:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 2, comentario: "Art. 226, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_227", materia: "INFRAÇÕES CTB", assunto: "Art. 227 — Uso Indevido de Buzina", enunciado: "Usar buzina prolongada e sucessivamente, entre 22h e 6h, em locais proibidos ou fora de toque breve de advertência configura infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 227, I a V, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_228", materia: "INFRAÇÕES CTB", assunto: "Art. 228 — Som Automotivo", enunciado: "Usar no veículo equipamento com som em volume ou frequência que não sejam autorizados pelo CONTRAN constitui infração:", alternativas: ["Média", "Leve", "Gravíssima", "Grave"], correta: 3, comentario: "Art. 228, CTB: Infração grave; multa e retenção do veículo para regularização." },
+      { id: "ctb_229", materia: "INFRAÇÕES CTB", assunto: "Art. 229 — Alarme Indevido", enunciado: "Usar indevidamente no veículo aparelho de alarme ou que produza sons e ruído que perturbem o sossego público é infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 229, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_230_1_6", materia: "INFRAÇÕES CTB", assunto: "Art. 230, I a VI — Identificação e Licenciamento", enunciado: "Conduzir veículo com lacre/chassi/placa violados, passageiros em compartimento de carga, anti-radar, sem placa, não licenciado ou placa ilegível é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 230, I a VI, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_230_7_19", materia: "INFRAÇÕES CTB", assunto: "Art. 230, VII a XIX — Equipamentos e Conservação", enunciado: "Conduzir veículo com cor/característica alterada, sem equipamento obrigatório, descarga livre, película irregular, mau estado ou sem limpador sob chuva é infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 230, VII a XIX, CTB: Todas essas hipóteses são infrações graves com retenção do veículo." },
+      { id: "ctb_230_20", materia: "INFRAÇÕES CTB", assunto: "Art. 230, XX — Transporte Escolar sem Autorização", enunciado: "Conduzir veículo sem portar a autorização para condução de escolares, na forma estabelecida no art. 136 do CTB, configura infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 230, XX, CTB: Infração gravíssima; multa (5x) e remoção do veículo." },
+      { id: "ctb_230_21_23", materia: "INFRAÇÕES CTB", assunto: "Art. 230, XXI a XXIII — Tara, Lâmpadas e Descanso", enunciado: "Conduzir veículo de carga sem inscrição de tara, com lâmpadas queimadas ou em desacordo com tempo de direção/descanso (art. 67-C) é infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 230, XXI, XXII e XXIII, CTB: Infração média (o inciso XXIII converte-se em grave se houver reincidência em 12 meses)." },
+      { id: "ctb_231_1_2", materia: "INFRAÇÕES CTB", assunto: "Art. 231, I e II — Danificar Via / Derramar Carga", enunciado: "Transitar com o veículo danificando a via ou derramando, lançando ou arrastando carga, combustível, lubrificante ou objeto que cause risco de sinistro é infração:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 231, I e II, CTB: Infração gravíssima; multa e retenção do veículo." },
+      { id: "ctb_231_3_4_6_7", materia: "INFRAÇÕES CTB", assunto: "Art. 231, III, IV, VI e VII — Fumaça, Dimensões e Lotação", enunciado: "Transitar produzindo fumaça acima do limite, com dimensões excedentes sem autorização ou com lotação excedente constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 231, III, IV, VI e VII, CTB: Infração grave." },
+      { id: "ctb_231_5_9", materia: "INFRAÇÕES CTB", assunto: "Art. 231, V e IX — Excesso de Peso / Banguela", enunciado: "Transitar com excesso de peso (aferido por equipamento) ou com o veículo desligado ou desengrenado em declive ('banguela') constitui infração:", alternativas: ["Grave", "Leve", "Gravíssima", "Média"], correta: 3, comentario: "Art. 231, V e IX, CTB: Ambas configuram infração média." },
+      { id: "ctb_231_8", materia: "INFRAÇÕES CTB", assunto: "Art. 231, VIII — Transporte Remunerado Clandestino", enunciado: "Transitar efetuando transporte remunerado de pessoas ou bens, quando não for licenciado para esse fim (salvo força maior/permissão), é infração:", alternativas: ["Gravíssima", "Grave", "Média", "Leve"], correta: 0, comentario: "Art. 231, VIII, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_232", materia: "INFRAÇÕES CTB", assunto: "Art. 232 — Porte de Documentos", enunciado: "Conduzir veículo sem os documentos de porte obrigatório referidos no CTB constitui infração de natureza:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 2, comentario: "Art. 232, CTB: Infração leve; multa e retenção do veículo até apresentação do documento." },
+      { id: "ctb_233", materia: "INFRAÇÕES CTB", assunto: "Art. 233 — Prazo de Registro (30 dias)", enunciado: "Deixar de efetuar o registro de veículo no prazo de trinta dias, ocorridas as hipóteses do art. 123 (como transferência de propriedade), é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 233, CTB: Infração média; multa e remoção do veículo." },
+      { id: "ctb_234", materia: "INFRAÇÕES CTB", assunto: "Art. 234 — Falsificar Documento", enunciado: "Falsificar ou adulterar documento de habilitação e de identificação do veículo configura infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 234, CTB: Infração gravíssima; multa e remoção do veículo." },
+      { id: "ctb_235", materia: "INFRAÇÕES CTB", assunto: "Art. 235 — Conduzir nas Partes Externas", enunciado: "Conduzir pessoas, animais ou carga nas partes externas do veículo, salvo nos casos devidamente autorizados, constitui infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 0, comentario: "Art. 235, CTB: Infração grave; multa e retenção do veículo para transbordo." },
+      { id: "ctb_236", materia: "INFRAÇÕES CTB", assunto: "Art. 236 — Rebocar com Cabo Flexível/Corda", enunciado: "Rebocar outro veículo com cabo flexível ou corda, salvo em casos de emergência, configura infração de natureza:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 2, comentario: "Art. 236, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_237", materia: "INFRAÇÕES CTB", assunto: "Art. 237 — Falta de Simbologia", enunciado: "Transitar com o veículo em desacordo com as especificações e com falta de inscrição e simbologia necessárias à sua identificação é infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 237, CTB: Infração grave; multa e retenção do veículo." },
+      { id: "ctb_238_239", materia: "INFRAÇÕES CTB", assunto: "Arts. 238 e 239 — Recusar Documentos / Retirar Retido", enunciado: "Recusar-se a entregar documentos para averiguação de autenticidade ou retirar do local veículo legalmente retido sem permissão são infrações:", alternativas: ["Graves", "Médias", "Leves", "Gravíssimas"], correta: 3, comentario: "Arts. 238 e 239, CTB: Ambas constituem infração gravíssima." },
+      { id: "ctb_240_243", materia: "INFRAÇÕES CTB", assunto: "Arts. 240 e 243 — Baixa e Perda Total", enunciado: "Deixar o responsável de promover a baixa de veículo irrecuperável/desmontado ou deixar a seguradora de comunicar perda total são infrações:", alternativas: ["Graves", "Gravíssimas", "Médias", "Leves"], correta: 0, comentario: "Arts. 240 e 243, CTB: Infrações de natureza grave." },
+      { id: "ctb_241", materia: "INFRAÇÕES CTB", assunto: "Art. 241 — Atualização de Cadastro", enunciado: "Deixar de atualizar o cadastro de registro do veículo ou de habilitação do condutor constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 2, comentario: "Art. 241, CTB: Infração leve; penalidade de multa." },
+      { id: "ctb_242", materia: "INFRAÇÕES CTB", assunto: "Art. 242 — Falsa Declaração de Domicílio", enunciado: "Fazer falsa declaração de domicílio para fins de registro, licenciamento ou habilitação configura infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 1, comentario: "Art. 242, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_244_1_5", materia: "INFRAÇÕES CTB", assunto: "Art. 244, I a V — Motocicletas (Gravíssimas)", enunciado: "Conduzir motocicleta sem capacete, passageiro sem capacete, equilibrando-se em uma roda ou transportando criança menor de 10 anos é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 244, I, II, III e V, CTB: Infração gravíssima; multa, suspensão do direito de dirigir, retenção do veículo e recolhimento da CNH." },
+      { id: "ctb_244_6_9", materia: "INFRAÇÕES CTB", assunto: "Art. 244, VI a IX — Motocicletas (Graves)", enunciado: "Conduzir motocicleta rebocando outro veículo, sem segurar o guidom com ambas as mãos ou com carga/moto-frete irregular constitui infração:", alternativas: ["Grave", "Gravíssima", "Média", "Leve"], correta: 0, comentario: "Art. 244, VI, VII, VIII e IX, CTB: Infração grave." },
+      { id: "ctb_244_10_11", materia: "INFRAÇÕES CTB", assunto: "Art. 244, X e XI — Capacete sem Viseira", enunciado: "Conduzir motocicleta ou transportar passageiro utilizando capacete sem viseira ou óculos de proteção (ou em desacordo com o CONTRAN) é infração:", alternativas: ["Grave", "Leve", "Média", "Gravíssima"], correta: 2, comentario: "Art. 244, X e XI, CTB: Infração média; multa e retenção do veículo até regularização." },
+      { id: "ctb_245", materia: "INFRAÇÕES CTB", assunto: "Art. 245 — Depósito de Materiais na Via", enunciado: "Utilizar a via para depósito de mercadorias, materiais ou equipamentos sem autorização do órgão de trânsito constitui infração:", alternativas: ["Média", "Grave", "Leve", "Gravíssima"], correta: 1, comentario: "Art. 245, CTB: Infração grave; multa e remoção da mercadoria/material." },
+      { id: "ctb_246", materia: "INFRAÇÕES CTB", assunto: "Art. 246 — Obstaculizar ou Não Sinalizar Obstáculo", enunciado: "Deixar de sinalizar qualquer obstáculo à livre circulação na via ou na calçada, ou obstaculizar a via indevidamente, configura infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 246, CTB: Infração gravíssima; multa agravada em até 5x." },
+      { id: "ctb_247_249", materia: "INFRAÇÕES CTB", assunto: "Arts. 247 e 249 — Bordo da Pista e Luz de Posição", enunciado: "Deixar de conduzir pelo bordo em fila única (tração humana/animal) ou não manter luzes de posição à noite parado para embarque/carga são infrações:", alternativas: ["Médias", "Graves", "Leves", "Gravíssimas"], correta: 0, comentario: "Arts. 247 e 249, CTB: Ambas constituem infração média." },
+      { id: "ctb_248", materia: "INFRAÇÕES CTB", assunto: "Art. 248 — Carga Excedente em Ônibus/Passageiros", enunciado: "Transportar em veículo destinado ao transporte de passageiros carga excedente em desacordo com o art. 109 do CTB é infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 2, comentario: "Art. 248, CTB: Infração grave; multa e retenção para transbordo." },
+      { id: "ctb_250_1_3", materia: "INFRAÇÕES CTB", assunto: "Art. 250, I e III — Luz Baixa e Luz de Placa", enunciado: "Em movimento, deixar de manter acesa a luz baixa (à noite, túneis, chuva, moto, rodovia pista simples sem DRL) ou luz de placa à noite é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 1, comentario: "Art. 250, I e III, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_250_4", materia: "INFRAÇÕES CTB", assunto: "Art. 250, IV — Porta Aberta (Coletivo/Escolar)", enunciado: "Quando em movimento, deixar o veículo de transporte público coletivo de passageiros ou de escolares de manter a porta fechada é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Art. 250, IV, CTB: Infração gravíssima; multa e retenção do veículo." },
+      { id: "ctb_251", materia: "INFRAÇÕES CTB", assunto: "Art. 251 — Uso Indevido de Pisca-Alerta/Farol", enunciado: "Utilizar o pisca-alerta fora de imobilização/emergência ou piscar luz baixa e alta fora das hipóteses legais constitui infração:", alternativas: ["Média", "Leve", "Grave", "Gravíssima"], correta: 0, comentario: "Art. 251, I e II, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_252_1_7", materia: "INFRAÇÕES CTB", assunto: "Art. 252, I a VII — Condutas ao Dirigir", enunciado: "Dirigir com o braço para fora, calçado inadequado, apenas uma das mãos (sem ser celular), fones de ouvido ou cobrando tarifa em movimento é infração:", alternativas: ["Grave", "Leve", "Média", "Gravíssima"], correta: 2, comentario: "Art. 252, I a VII, CTB: Infração média; penalidade de multa." },
+      { id: "ctb_252_pu", materia: "INFRAÇÕES CTB", assunto: "Art. 252, Parágrafo Único — Celular ao Volante", enunciado: "Dirigir veículo segurando ou manuseando telefone celular caracteriza-se como infração de natureza:", alternativas: ["Média", "Gravíssima", "Grave", "Leve"], correta: 1, comentario: "Art. 252, parágrafo único, CTB: Infração gravíssima; penalidade de multa." },
+      { id: "ctb_253_253a", materia: "INFRAÇÕES CTB", assunto: "Arts. 253 e 253-A — Bloquear ou Interromper a Via", enunciado: "Bloquear a via com veículo ou usar veículo para deliberadamente interromper, restringir ou perturbar a circulação sem autorização é infração:", alternativas: ["Grave", "Média", "Leve", "Gravíssima"], correta: 3, comentario: "Arts. 253 e 253-A, CTB: Infração gravíssima (no art. 253-A: multa 20x e suspensão por 12 meses)." },
+      { id: "ctb_254", materia: "INFRAÇÕES CTB", assunto: "Art. 254 — Infrações do Pedestre", enunciado: "Andar fora da faixa própria, passarela ou passagem, cruzar pista em viadutos/pontes/túneis ou desobedecer sinalização específica (pedestre) é infração:", alternativas: ["Leve", "Média", "Grave", "Gravíssima"], correta: 0, comentario: "Art. 254, I a VI, CTB: Infração leve (multa em 50% do valor da infração leve)." },
+      { id: "ctb_255", materia: "INFRAÇÕES CTB", assunto: "Art. 255 — Bicicleta em Passeio", enunciado: "Conduzir bicicleta em passeios onde não seja permitida a circulação desta, ou de forma agressiva, constitui infração de natureza:", alternativas: ["Leve", "Grave", "Média", "Gravíssima"], correta: 2, comentario: "Art. 255, CTB: Infração média; multa e remoção da bicicleta mediante recibo." }
     ];
 
-    let questoes = JSON.parse(localStorage.getItem("app_questoes")) || QUESTOES_INICIAIS;
-    let historico = JSON.parse(localStorage.getItem("app_historico")) || {};
-    let prefs = JSON.parse(localStorage.getItem("app_prefs")) || { autoNext: false };
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function embaralharAlternativasQuestao(q) {
+      const corretaTexto = q.alternativas[q.correta];
+      const novasAlternativas = shuffleArray(q.alternativas);
+      const novoIndice = novasAlternativas.indexOf(corretaTexto);
+      return {
+        ...q,
+        alternativas: novasAlternativas,
+        correta: novoIndice
+      };
+    }
+
+    const STORAGE_KEY_Q = "app_questoes_infracoes_ctb_v1";
+    const STORAGE_KEY_H = "app_historico_infracoes_ctb_v1";
+    const STORAGE_KEY_L = "app_logs_infracoes_ctb_v1";
+    const STORAGE_KEY_P = "app_prefs_infracoes_ctb_v1";
+
+    let questoes = JSON.parse(localStorage.getItem(STORAGE_KEY_Q)) || QUESTOES_INICIAIS.map(embaralharAlternativasQuestao);
+    let historico = JSON.parse(localStorage.getItem(STORAGE_KEY_H)) || {};
+    let logsRespostas = JSON.parse(localStorage.getItem(STORAGE_KEY_L)) || [];
+    let prefs = JSON.parse(localStorage.getItem(STORAGE_KEY_P)) || { autoNext: true, filtroPadrao: "NAO_RESPONDIDAS" };
 
     let filtradas = [];
     let indiceAtual = 0;
     let alternativaSelecionada = null;
     let respondidaNaTela = false;
     let timerAuto = null;
+    let periodoDesempenho = "HOJE";
 
     document.getElementById("auto-next").checked = !!prefs.autoNext;
+    document.getElementById("filter-status").value = prefs.filtroPadrao || "NAO_RESPONDIDAS";
 
     function salvarLocal() {
-      localStorage.setItem("app_questoes", JSON.stringify(questoes));
-      localStorage.setItem("app_historico", JSON.stringify(historico));
+      localStorage.setItem(STORAGE_KEY_Q, JSON.stringify(questoes));
+      localStorage.setItem(STORAGE_KEY_H, JSON.stringify(historico));
+      localStorage.setItem(STORAGE_KEY_L, JSON.stringify(logsRespostas));
     }
 
     function salvarPreferencias() {
       prefs.autoNext = document.getElementById("auto-next").checked;
-      localStorage.setItem("app_prefs", JSON.stringify(prefs));
+      prefs.filtroPadrao = document.getElementById("filter-status").value;
+      localStorage.setItem(STORAGE_KEY_P, JSON.stringify(prefs));
+    }
+
+    function embaralharQuestoes() {
+      questoes = shuffleArray(questoes).map(embaralharAlternativasQuestao);
+      salvarLocal();
+      aplicarFiltros();
     }
 
     function switchTab(tab, btn) {
       clearTimeout(timerAuto);
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      ["estudar", "importar", "gerenciar"].forEach(t => {
+      if (btn) btn.classList.add("active");
+      ["estudar", "desempenho", "importar", "gerenciar"].forEach(t => {
         document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab);
       });
       document.getElementById("quiz-bottom-bar").classList.toggle("hidden", tab !== "estudar");
       if (tab === "estudar") {
         atualizarSelectMaterias();
         aplicarFiltros();
+      } else if (tab === "desempenho") {
+        renderizarDesempenho();
       }
+    }
+
+    function irParaModoRevisao(filtroStatus) {
+      document.getElementById("filter-status").value = filtroStatus;
+      salvarPreferencias();
+      const firstTabBtn = document.querySelectorAll(".tab-btn")[0];
+      switchTab("estudar", firstTabBtn);
     }
 
     function atualizarSelectMaterias() {
       const select = document.getElementById("filter-materia");
       const atual = select.value;
       const materias = [...new Set(questoes.map(q => q.materia))].sort();
-      select.innerHTML = `<option value="TODAS">Todas as Matérias (${questoes.length})</option>`;
+      select.innerHTML = `<option value="TODAS">Todas as Questões (${questoes.length})</option>`;
       materias.forEach(m => {
         const qtd = questoes.filter(q => q.materia === m).length;
         select.innerHTML += `<option value="${m}">${m} (${qtd})</option>`;
@@ -521,20 +889,22 @@
     function atualizarEstatisticas() {
       const total = questoes.length;
       const idsRespondidos = Object.keys(historico).filter(id => questoes.some(q => q.id === id));
-      const respondidas = idsRespondidos.length;
+      const naoFeitas = Math.max(0, total - idsRespondidos.length);
       const acertos = idsRespondidos.filter(id => historico[id] === true).length;
-      const taxa = respondidas > 0 ? Math.round((acertos / respondidas) * 100) : 0;
+      const erradas = idsRespondidos.filter(id => historico[id] === false).length;
 
       document.getElementById("stat-total").textContent = total;
-      document.getElementById("stat-respondidas").textContent = respondidas;
+      document.getElementById("stat-nao-feitas").textContent = naoFeitas;
       document.getElementById("stat-acertos").textContent = acertos;
-      document.getElementById("stat-taxa").textContent = taxa + "%";
+      document.getElementById("stat-taxa").textContent = erradas;
     }
 
     function aplicarFiltros() {
       clearTimeout(timerAuto);
       const mat = document.getElementById("filter-materia").value;
       const status = document.getElementById("filter-status").value;
+      prefs.filtroPadrao = status;
+      salvarPreferencias();
 
       filtradas = questoes.filter(q => {
         const okMat = mat === "TODAS" || q.materia === mat;
@@ -544,6 +914,10 @@
         if (status === "ERRADAS") okStatus = reg === false;
         return okMat && okStatus;
       });
+
+      if (status === "NAO_RESPONDIDAS" || status === "ERRADAS") {
+        filtradas = shuffleArray(filtradas);
+      }
 
       indiceAtual = 0;
       atualizarEstatisticas();
@@ -556,6 +930,7 @@
       const btnResp = document.getElementById("btn-responder");
       const btnPrev = document.getElementById("btn-prev");
       const btnNext = document.getElementById("btn-next");
+      const btnGoto = document.getElementById("btn-goto");
 
       alternativaSelecionada = null;
       respondidaNaTela = false;
@@ -565,18 +940,33 @@
       btnResp.style.background = "var(--primary)";
 
       if (filtradas.length === 0) {
-        area.innerHTML = `<p style="text-align:center; color: var(--muted); padding: 24px 10px;">Nenhuma questão encontrada para esse filtro.</p>`;
+        const statusAtual = document.getElementById("filter-status").value;
+        const msgVazio = statusAtual === "NAO_RESPONDIDAS"
+          ? "Parabéns! Você já respondeu todas as questões deste filtro sem repetição."
+          : statusAtual === "ERRADAS"
+          ? "Nenhuma questão errada pendente de revisão neste filtro."
+          : "Nenhuma questão encontrada para esse filtro.";
+        area.innerHTML = `
+          <div style="text-align:center; color: var(--muted); padding: 24px 10px;">
+            <p style="margin-bottom:14px;">${msgVazio}</p>
+            ${statusAtual !== "TODAS" ? `<button class="btn secondary" onclick="irParaModoRevisao('TODAS')">Ver Todas as Questões</button>` : ""}
+          </div>
+        `;
         btnResp.disabled = true;
         btnPrev.disabled = true;
         btnNext.disabled = true;
+        btnGoto.disabled = true;
         return;
       }
 
       btnPrev.disabled = indiceAtual === 0;
       btnNext.disabled = indiceAtual === filtradas.length - 1;
+      btnGoto.disabled = false;
 
-      const q = filtradas[indiceAtual];
-      const letras = ["A", "B", "C", "D", "E"];
+      const q = embaralharAlternativasQuestao(filtradas[indiceAtual]);
+      filtradas[indiceAtual] = q;
+
+      const letras = ["A", "B", "C", "D"];
       const statusAnterior = historico[q.id];
 
       let badgeStatus = "";
@@ -586,12 +976,11 @@
       area.innerHTML = `
         <div class="q-meta">
           <div>
-            <span class="badge">${q.materia}</span>
-            ${q.assunto ? `<div style="margin-top:4px; font-size:0.78rem;">${q.assunto}</div>` : ""}
+            <div class="progress-counter">${indiceAtual + 1} <span>de ${filtradas.length}</span></div>
+            <div style="margin-top:6px;"><span class="badge">${q.materia}</span> ${q.assunto ? `<span style="margin-left:6px; font-size:0.78rem;">${q.assunto}</span>` : ""}</div>
           </div>
           <div style="text-align:right;">
             ${badgeStatus}
-            <div style="margin-top:4px;"><strong>${indiceAtual + 1} / ${filtradas.length}</strong></div>
           </div>
         </div>
         <div class="enunciado">${q.enunciado}</div>
@@ -604,7 +993,7 @@
           `).join("")}
         </div>
         <div id="comentario-box" class="comentario">
-          <strong>Comentário / Gabarito:</strong><br/>${q.comentario || "Sem comentário cadastrado."}
+          <strong>Fundamentação / Gabarito:</strong><br/>${q.comentario || "Sem comentário cadastrado."}
         </div>
       `;
     }
@@ -624,6 +1013,11 @@
       const q = filtradas[indiceAtual];
       const acertou = alternativaSelecionada === q.correta;
       historico[q.id] = acertou;
+      logsRespostas.push({
+        id: q.id,
+        correta: acertou,
+        ts: Date.now()
+      });
       salvarLocal();
       atualizarEstatisticas();
 
@@ -636,17 +1030,18 @@
 
       document.getElementById("comentario-box").classList.add("show");
       const btnResp = document.getElementById("btn-responder");
-      btnResp.textContent = acertou ? "✓ Acertou!" : "✕ Errou";
+      btnResp.textContent = acertou ? "✓ Acertou" : "✕ Errou";
       btnResp.style.background = acertou ? "var(--success)" : "var(--danger)";
 
       if (prefs.autoNext && indiceAtual < filtradas.length - 1) {
         timerAuto = setTimeout(() => {
           navegar(1);
-        }, 1600);
+        }, 3000);
       }
     }
 
     function navegar(dir) {
+      clearTimeout(timerAuto);
       const novo = indiceAtual + dir;
       if (novo >= 0 && novo < filtradas.length) {
         indiceAtual = novo;
@@ -655,22 +1050,122 @@
       }
     }
 
-    function preencherExemplo() {
-      document.getElementById("json-input").value = JSON.stringify([
-        {
-          materia: "Legislação Específica",
-          assunto: "Deveres Funcionais",
-          enunciado: "Exemplo de nova questão importada. Qual é a alternativa correta?",
-          alternativas: [
-            "Alternativa A (correta neste exemplo)",
-            "Alternativa B",
-            "Alternativa C",
-            "Alternativa D"
-          ],
-          correta: 0,
-          comentario: "Explicação detalhada do motivo pelo qual a letra A está correta."
+    function abrirModalIrPara() {
+      if (filtradas.length === 0) return;
+      const modal = document.getElementById("modal-goto");
+      const input = document.getElementById("goto-input");
+      document.getElementById("goto-range-info").textContent = `Digite um número de 1 a ${filtradas.length}`;
+      input.max = filtradas.length;
+      input.value = indiceAtual + 1;
+      modal.classList.remove("hidden");
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function fecharModalIrPara(event) {
+      if (!event || event.target.id === "modal-goto") {
+        document.getElementById("modal-goto").classList.add("hidden");
+      }
+    }
+
+    function confirmarIrPara() {
+      const val = parseInt(document.getElementById("goto-input").value, 10);
+      if (!isNaN(val) && val >= 1 && val <= filtradas.length) {
+        indiceAtual = val - 1;
+        fecharModalIrPara();
+        renderizarQuestao();
+      }
+    }
+
+    function selecionarPeriodo(periodo, btn) {
+      periodoDesempenho = periodo;
+      document.querySelectorAll(".period-btn").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderizarDesempenho();
+    }
+
+    function renderizarDesempenho() {
+      const agora = Date.now();
+      const inicioDia = new Date();
+      inicioDia.setHours(0, 0, 0, 0);
+
+      let limiteTs = 0;
+      let tituloEvo = "hoje";
+      let subEvo = "00h - 23h";
+
+      if (periodoDesempenho === "HOJE") {
+        limiteTs = inicioDia.getTime();
+        tituloEvo = "hoje";
+        subEvo = "00h - 23h";
+      } else if (periodoDesempenho === "7D") {
+        limiteTs = agora - 7 * 24 * 60 * 60 * 1000;
+        tituloEvo = "nos últimos 7 dias";
+        subEvo = "7 dias";
+      } else if (periodoDesempenho === "30D") {
+        limiteTs = agora - 30 * 24 * 60 * 60 * 1000;
+        tituloEvo = "nos últimos 30 dias";
+        subEvo = "30 dias";
+      } else {
+        limiteTs = 0;
+        tituloEvo = "desde o início";
+        subEvo = "Histórico geral";
+      }
+
+      const logsFiltrados = logsRespostas.filter(item => item.ts >= limiteTs);
+      const resolvidas = logsFiltrados.length;
+      const certas = logsFiltrados.filter(item => item.correta === true).length;
+      const erradas = logsFiltrados.filter(item => item.correta === false).length;
+      const pct = resolvidas > 0 ? Math.round((certas / resolvidas) * 100) : 0;
+
+      document.getElementById("perf-empty-msg").classList.toggle("hidden", resolvidas > 0);
+      document.getElementById("perf-pct").textContent = pct + "%";
+      document.getElementById("perf-resolvidas").textContent = resolvidas;
+      document.getElementById("perf-certas").textContent = certas;
+      document.getElementById("perf-erradas").textContent = erradas;
+
+      const donut = document.getElementById("perf-donut");
+      if (resolvidas === 0) {
+        donut.style.background = "conic-gradient(var(--danger) 0% 100%)";
+      } else {
+        donut.style.background = `conic-gradient(#3b82f6 0% ${pct}%, var(--danger) ${pct}% 100%)`;
+      }
+
+      document.getElementById("perf-evo-title").textContent = tituloEvo;
+      document.getElementById("perf-evo-sub").textContent = subEvo;
+
+      const buckets = new Array(8).fill(0);
+      if (resolvidas > 0) {
+        if (periodoDesempenho === "HOJE") {
+          logsFiltrados.forEach(item => {
+            const hora = new Date(item.ts).getHours();
+            const idx = Math.min(7, Math.floor(hora / 3));
+            buckets[idx]++;
+          });
+        } else {
+          const minTs = Math.min(...logsFiltrados.map(l => l.ts));
+          const maxTs = Math.max(...logsFiltrados.map(l => l.ts));
+          const span = Math.max(1, maxTs - minTs);
+          logsFiltrados.forEach(item => {
+            const idx = Math.min(7, Math.floor(((item.ts - minTs) / span) * 7.999));
+            buckets[idx]++;
+          });
         }
-      ], null, 2);
+      }
+
+      const maxBucket = Math.max(1, ...buckets);
+      const labelsHoje = ["00h", "03h", "06h", "09h", "12h", "15h", "18h", "21h"];
+      const evoContainer = document.getElementById("perf-evolution-bars");
+      evoContainer.innerHTML = buckets.map((val, i) => {
+        const alturaPct = val === 0 ? 0 : Math.max(18, Math.round((val / maxBucket) * 100));
+        const lbl = periodoDesempenho === "HOJE" ? labelsHoje[i] : `P${i + 1}`;
+        return `
+          <div class="evo-col" title="${val} questão(ões)">
+            <div class="evo-track">
+              <div class="evo-fill" style="height: ${alturaPct}%;"></div>
+            </div>
+            <span class="evo-label">${lbl}</span>
+          </div>
+        `;
+      }).join("");
     }
 
     function importarJSON() {
@@ -682,18 +1177,87 @@
         let adicionadas = 0;
         dados.forEach((item, idx) => {
           if (item.enunciado && Array.isArray(item.alternativas) && typeof item.correta === "number") {
-            questoes.push({
+            const qNova = embaralharAlternativasQuestao({
               id: "q_" + Date.now() + "_" + idx,
-              materia: item.materia || "Geral",
+              materia: "INFRAÇÕES CTB",
               assunto: item.assunto || "",
               enunciado: item.enunciado,
               alternativas: item.alternativas,
               correta: item.correta,
               comentario: item.comentario || ""
             });
+            questoes.push(qNova);
             adicionadas++;
           }
         });
 
         salvarLocal();
-        document.getElementById("json-
+        document.getElementById("json-input").value = "";
+        msg.style.color = "var(--success)";
+        msg.textContent = `✓ ${adicionadas} questão(ões) adicionada(s) em INFRAÇÕES CTB!`;
+        atualizarSelectMaterias();
+        atualizarEstatisticas();
+      } catch (err) {
+        msg.style.color = "var(--danger)";
+        msg.textContent = "Erro ao importar JSON: " + err.message;
+      }
+    }
+
+    function exportarBackup() {
+      const msg = document.getElementById("backup-msg");
+      try {
+        const payload = {
+          exportadoEm: new Date().toISOString(),
+          questoes: questoes,
+          historico: historico,
+          logsRespostas: logsRespostas,
+          prefs: prefs
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "infracoes-ctb-backup.json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        msg.style.color = "var(--success)";
+        msg.textContent = "✓ Backup (.json) gerado com sucesso!";
+      } catch (err) {
+        msg.style.color = "var(--danger)";
+        msg.textContent = "Erro ao gerar backup: " + err.message;
+      }
+    }
+
+    function resetarHistorico() {
+      const msg = document.getElementById("backup-msg");
+      historico = {};
+      logsRespostas = [];
+      salvarLocal();
+      atualizarEstatisticas();
+      renderizarQuestao();
+      renderizarDesempenho();
+      msg.style.color = "var(--success)";
+      msg.textContent = "✓ Histórico de acertos, erros e desempenho zerado.";
+    }
+
+    function resetarTudo() {
+      const msg = document.getElementById("backup-msg");
+      questoes = shuffleArray(QUESTOES_INICIAIS).map(embaralharAlternativasQuestao);
+      historico = {};
+      logsRespostas = [];
+      salvarLocal();
+      atualizarSelectMaterias();
+      aplicarFiltros();
+      renderizarDesempenho();
+      msg.style.color = "var(--success)";
+      msg.textContent = "✓ Banco completo de INFRAÇÕES CTB carregado e embaralhado!";
+    }
+
+    atualizarSelectMaterias();
+    aplicarFiltros();
+  </script>
+</body>
+</html>
