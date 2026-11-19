@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Caderno de Questões</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-hover: #273549;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #22c55e;
+      --success-bg: rgba(34, 197, 94, 0.16);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.16);
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 12px 12px 88px 12px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .auto-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auto-toggle input {
+      accent-color: var(--primary);
+      width: 15px;
+      height: 15px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .tab-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+
+    .stat-box span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .stat-box strong {
+      font-size: 1.05rem;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 560px) {
+      .filters {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    select, input[type="text"], textarea {
+      width: 100%;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.76rem;
+    }
+
+    .badge.erro {
+      background: var(--danger-bg);
+      color: #fca5a5;
+    }
+
+    .badge.acerto {
+      background: var(--success-bg);
+      color: #86efac;
+    }
+
+    .enunciado {
+      font-size: 1.02rem;
+      margin-bottom: 16px;
+      white-space: pre-line;
+      color: #f8fafc;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 54px;
+      cursor: pointer;
+      font-size: 0.96rem;
+      transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .option-btn:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.18);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .option-letter {
+      font-weight: 700;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(148, 163, 184, 0.14);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .comentario {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      border-left: 4px solid var(--primary);
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    .comentario.show {
+      display: block;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      padding: 10px 12px;
+      z-index: 20;
+    }
+
+    .bottom-bar-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      min-height: 46px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.94rem;
+      text-align: center;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn.secondary {
+      background: #334155;
+      padding: 12px 13px;
+    }
+
+    .btn.danger {
+      background: #b91c1c;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    textarea {
+      min-height: 200px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.84rem;
+      margin: 12px 0;
+    }
+
+    .msg {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .stack-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="top-row">
+        <h1>Caderno de Questões</h1>
+        <label class="auto-toggle" title="Avança automaticamente após responder">
+          <input type="checkbox" id="auto-next" onchange="salvarPreferencias()" />
+          <span>Auto-avançar</span>
+        </label>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('estudar', this)">Estudar</button>
+        <button class="tab-btn" onclick="switchTab('importar', this)">Importar</button>
+        <button class="tab-btn" onclick="switchTab('gerenciar', this)">Backup</button>
+      </div>
+    </header>
+
+    <section id="tab-estudar">
+      <div class="stats-bar">
+        <div class="stat-box"><span>Total</span><strong id="stat-total">0</strong></div>
+        <div class="stat-box"><span>Feitas</span><strong id="stat-respondidas">0</strong></div>
+        <div class="stat-box"><span>Acertos</span><strong id="stat-acertos" style="color: var(--success)">0</strong></div>
+        <div class="stat-box"><span>Taxa</span><strong id="stat-taxa">0%</strong></div>
+      </div>
+
+      <div class="filters">
+        <select id="filter-materia" onchange="aplicarFiltros()">
+          <option value="TODAS">Todas as Matérias</option>
+        </select>
+        <select id="filter-status" onchange="aplicarFiltros()">
+          <option value="TODAS">Todas as Questões</option>
+          <option value="NAO_RESPONDIDAS">Não Respondidas</option>
+          <option value="ERRADAS">Somente Erradas (Revisão)</option>
+        </select>
+      </div>
+
+      <div id="quiz-area" class="card"></div>
+
+      <div class="bottom-bar" id="quiz-bottom-bar">
+        <div class="bottom-bar-inner">
+          <button class="btn secondary" id="btn-prev" onclick="navegar(-1)">←</button>
+          <button class="btn secondary" id="btn-next" onclick="navegar(1)">→</button>
+          <button class="btn" id="btn-responder" onclick="confirmarResposta()">Responder</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-importar" class="card hidden">
+      <h2>Importar Questões (JSON)</h2>
+      <p style="color: var(--muted); font-size: 0.88rem; margin-top: 6px;">
+        Cole o bloco de questões gerado aqui e toque em <strong>Adicionar ao Banco</strong>.
+      </p>
+      <textarea id="json-input" placeholder='[
+  {
+    "materia": "Direito Constitucional",
+    "assunto": "Direitos Fundamentais",
+    "enunciado": "Texto da pergunta...",
+    "alternativas": ["A...", "B...", "C...", "D..."],
+    "correta": 0,
+    "comentario": "Explicação do gabarito..."
+  }
+]'></textarea>
+      <div class="stack-btns">
+        <button class="btn" onclick="importarJSON()">Adicionar ao Banco</button>
+        <button class="btn secondary" onclick="preencherExemplo()">Inserir Exemplo de Teste</button>
+      </div>
+      <div id="import-msg" class="msg"></div>
+    </section>
+
+    <section id="tab-gerenciar" class="card hidden">
+      <h2>Backup e Controle</h2>
+      <p style="color: var(--muted); font-size: 0.88rem; margin: 8px 0 14px;">
+        Salve uma cópia das suas questões e estatísticas para não perder nada ao trocar de navegador.
+      </p>
+      <div class="stack-btns">
+        <button class="btn" onclick="exportarBackup()">Baixar Backup (.json)</button>
+        <button class="btn secondary" onclick="resetarHistorico()">Zerar Histórico de Acertos/Erros</button>
+        <button class="btn danger" onclick="resetarTudo()">Restaurar Padrão de Fábrica</button>
+      </div>
+      <div id="backup-msg" class="msg"></div>
+    </section>
+  </div>
+
+  <script>
+    const QUESTOES_INICIAIS = [
+      {
+        id: "q1",
+        materia: "Direito Constitucional",
+        assunto: "Direitos e Garantias Fundamentais",
+        enunciado: "De acordo com a Constituição Federal de 1988, a casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, SALVO em caso de:",
+        alternativas: [
+          "Flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial.",
+          "Determinação judicial a qualquer hora do dia ou da noite, independentemente de flagrante.",
+          "Investigação policial preliminar autorizada pelo delegado de polícia durante o período diurno.",
+          "Suspeita fundada de crime permanente, apenas durante o período noturno."
+        ],
+        correta: 0,
+        comentario: "Art. 5º, XI, CF/88: A casa é asilo inviolável do indivíduo, ninguém nela podendo penetrar sem consentimento do morador, salvo em caso de flagrante delito ou desastre, ou para prestar socorro, ou, durante o dia, por determinação judicial."
+      },
+      {
+        id: "q2",
+        materia: "Legislação de Trânsito",
+        assunto: "Normas de Circulação",
+        enunciado: "Segundo o Código de Trânsito Brasileiro (CTB), quando veículos, transitando por fluxos que se cruzem, se aproximarem de local não sinalizado, terá preferência de passagem:",
+        alternativas: [
+          "O veículo de maior porte, independentemente da via em que esteja.",
+          "No caso de rotatória, aquele que estiver entrando na rotatória.",
+          "No caso de apenas um fluxo ser proveniente de rodovia, aquele que estiver circulando por ela.",
+          "Nos demais casos, o que vier pela esquerda do condutor."
+        ],
+        correta: 2,
+        comentario: "Art. 29, III, CTB: Tem preferência: a) no caso de apenas um fluxo ser proveniente de rodovia, aquele que estiver circulando por ela; b) no caso de rotatória, aquele que estiver circulando por ela; c) nos demais casos, o que vier pela direita do condutor."
+      },
+      {
+        id: "q3",
+        materia: "Informática",
+        assunto: "Segurança da Informação",
+        enunciado: "O tipo de malware que sequestra os dados do usuário por meio de criptografia e exige o pagamento de um resgate para liberar o acesso é conhecido como:",
+        alternativas: [
+          "Spyware",
+          "Ransomware",
+          "Adware",
+          "Rootkit"
+        ],
+        correta: 1,
+        comentario: "Ransomware bloqueia o acesso ao sistema ou criptografa arquivos, exigindo pagamento para fornecer a chave de descriptografia."
+      }
+    ];
+
+    let questoes = JSON.parse(localStorage.getItem("app_questoes")) || QUESTOES_INICIAIS;
+    let historico = JSON.parse(localStorage.getItem("app_historico")) || {};
+    let prefs = JSON.parse(localStorage.getItem("app_prefs")) || { autoNext: false };
+
+    let filtradas = [];
+    let indiceAtual = 0;
+    let alternativaSelecionada = null;
+    let respondidaNaTela = false;
+    let timerAuto = null;
+
+    document.getElementById("auto-next").checked = !!prefs.autoNext;
+
+    function salvarLocal() {
+      localStorage.setItem("app_questoes", JSON.stringify(questoes));
+      localStorage.setItem("app_historico", JSON.stringify(historico));
+    }
+
+    function salvarPreferencias() {
+      prefs.autoNext = document.getElementById("auto-next").checked;
+      localStorage.setItem("app_prefs", JSON.stringify(prefs));
+    }
+
+    function switchTab(tab, btn) {
+      clearTimeout(timerAuto);
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      ["estudar", "importar", "gerenciar"].forEach(t => {
+        document.getElementById("tab-" + t).classList.toggle("hidden", t !== tab);
+      });
+      document.getElementById("quiz-bottom-bar").classList.toggle("hidden", tab !== "estudar");
+      if (tab === "estudar") {
+        atualizarSelectMaterias();
+        aplicarFiltros();
+      }
+    }
+
+    function atualizarSelectMaterias() {
+      const select = document.getElementById("filter-materia");
+      const atual = select.value;
+      const materias = [...new Set(questoes.map(q => q.materia))].sort();
+      select.innerHTML = `<option value="TODAS">Todas as Matérias (${questoes.length})</option>`;
+      materias.forEach(m => {
+        const qtd = questoes.filter(q => q.materia === m).length;
+        select.innerHTML += `<option value="${m}">${m} (${qtd})</option>`;
+      });
+      if ([...select.options].some(o => o.value === atual)) select.value = atual;
+    }
+
+    function atualizarEstatisticas() {
+      const total = questoes.length;
+      const idsRespondidos = Object.keys(historico).filter(id => questoes.some(q => q.id === id));
+      const respondidas = idsRespondidos.length;
+      const acertos = idsRespondidos.filter(id => historico[id] === true).length;
+      const taxa = respondidas > 0 ? Math.round((acertos / respondidas) * 100) : 0;
+
+      document.getElementById("stat-total").textContent = total;
+      document.getElementById("stat-respondidas").textContent = respondidas;
+      document.getElementById("stat-acertos").textContent = acertos;
+      document.getElementById("stat-taxa").textContent = taxa + "%";
+    }
+
+    function aplicarFiltros() {
+      clearTimeout(timerAuto);
+      const mat = document.getElementById("filter-materia").value;
+      const status = document.getElementById("filter-status").value;
+
+      filtradas = questoes.filter(q => {
+        const okMat = mat === "TODAS" || q.materia === mat;
+        const reg = historico[q.id];
+        let okStatus = true;
+        if (status === "NAO_RESPONDIDAS") okStatus = reg === undefined;
+        if (status === "ERRADAS") okStatus = reg === false;
+        return okMat && okStatus;
+      });
+
+      indiceAtual = 0;
+      atualizarEstatisticas();
+      renderizarQuestao();
+    }
+
+    function renderizarQuestao() {
+      clearTimeout(timerAuto);
+      const area = document.getElementById("quiz-area");
+      const btnResp = document.getElementById("btn-responder");
+      const btnPrev = document.getElementById("btn-prev");
+      const btnNext = document.getElementById("btn-next");
+
+      alternativaSelecionada = null;
+      respondidaNaTela = false;
+
+      btnResp.disabled = false;
+      btnResp.textContent = "Responder";
+      btnResp.style.background = "var(--primary)";
+
+      if (filtradas.length === 0) {
+        area.innerHTML = `<p style="text-align:center; color: var(--muted); padding: 24px 10px;">Nenhuma questão encontrada para esse filtro.</p>`;
+        btnResp.disabled = true;
+        btnPrev.disabled = true;
+        btnNext.disabled = true;
+        return;
+      }
+
+      btnPrev.disabled = indiceAtual === 0;
+      btnNext.disabled = indiceAtual === filtradas.length - 1;
+
+      const q = filtradas[indiceAtual];
+      const letras = ["A", "B", "C", "D", "E"];
+      const statusAnterior = historico[q.id];
+
+      let badgeStatus = "";
+      if (statusAnterior === false) badgeStatus = `<span class="badge erro">Errada</span>`;
+      else if (statusAnterior === true) badgeStatus = `<span class="badge acerto">Acertada</span>`;
+
+      area.innerHTML = `
+        <div class="q-meta">
+          <div>
+            <span class="badge">${q.materia}</span>
+            ${q.assunto ? `<div style="margin-top:4px; font-size:0.78rem;">${q.assunto}</div>` : ""}
+          </div>
+          <div style="text-align:right;">
+            ${badgeStatus}
+            <div style="margin-top:4px;"><strong>${indiceAtual + 1} / ${filtradas.length}</strong></div>
+          </div>
+        </div>
+        <div class="enunciado">${q.enunciado}</div>
+        <div class="options" id="options-list">
+          ${q.alternativas.map((alt, i) => `
+            <button class="option-btn" id="opt-${i}" onclick="selecionar(${i})">
+              <span class="option-letter">${letras[i]}</span>
+              <span>${alt}</span>
+            </button>
+          `).join("")}
+        </div>
+        <div id="comentario-box" class="comentario">
+          <strong>Comentário / Gabarito:</strong><br/>${q.comentario || "Sem comentário cadastrado."}
+        </div>
+      `;
+    }
+
+    function selecionar(idx) {
+      if (respondidaNaTela) return;
+      alternativaSelecionada = idx;
+      document.querySelectorAll(".option-btn").forEach((btn, i) => {
+        btn.classList.toggle("selected", i === idx);
+      });
+    }
+
+    function confirmarResposta() {
+      if (alternativaSelecionada === null || respondidaNaTela) return;
+      respondidaNaTela = true;
+
+      const q = filtradas[indiceAtual];
+      const acertou = alternativaSelecionada === q.correta;
+      historico[q.id] = acertou;
+      salvarLocal();
+      atualizarEstatisticas();
+
+      document.querySelectorAll(".option-btn").forEach((btn, i) => {
+        btn.disabled = true;
+        btn.classList.remove("selected");
+        if (i === q.correta) btn.classList.add("correct");
+        else if (i === alternativaSelecionada && !acertou) btn.classList.add("wrong");
+      });
+
+      document.getElementById("comentario-box").classList.add("show");
+      const btnResp = document.getElementById("btn-responder");
+      btnResp.textContent = acertou ? "✓ Acertou!" : "✕ Errou";
+      btnResp.style.background = acertou ? "var(--success)" : "var(--danger)";
+
+      if (prefs.autoNext && indiceAtual < filtradas.length - 1) {
+        timerAuto = setTimeout(() => {
+          navegar(1);
+        }, 1600);
+      }
+    }
+
+    function navegar(dir) {
+      const novo = indiceAtual + dir;
+      if (novo >= 0 && novo < filtradas.length) {
+        indiceAtual = novo;
+        renderizarQuestao();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    function preencherExemplo() {
+      document.getElementById("json-input").value = JSON.stringify([
+        {
+          materia: "Legislação Específica",
+          assunto: "Deveres Funcionais",
+          enunciado: "Exemplo de nova questão importada. Qual é a alternativa correta?",
+          alternativas: [
+            "Alternativa A (correta neste exemplo)",
+            "Alternativa B",
+            "Alternativa C",
+            "Alternativa D"
+          ],
+          correta: 0,
+          comentario: "Explicação detalhada do motivo pelo qual a letra A está correta."
+        }
+      ], null, 2);
+    }
+
+    function importarJSON() {
+      const msg = document.getElementById("import-msg");
+      try {
+        const dados = JSON.parse(document.getElementById("json-input").value);
+        if (!Array.isArray(dados)) throw new Error("O formato precisa ser uma lista [ ... ]");
+
+        let adicionadas = 0;
+        dados.forEach((item, idx) => {
+          if (item.enunciado && Array.isArray(item.alternativas) && typeof item.correta === "number") {
+            questoes.push({
+              id: "q_" + Date.now() + "_" + idx,
+              materia: item.materia || "Geral",
+              assunto: item.assunto || "",
+              enunciado: item.enunciado,
+              alternativas: item.alternativas,
+              correta: item.correta,
+              comentario: item.comentario || ""
+            });
+            adicionadas++;
+          }
+        });
+
+        salvarLocal();
+        document.getElementById("json-
