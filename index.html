@@ -284,7 +284,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .stat-box {
@@ -305,12 +305,56 @@
       font-size: 1.05rem;
     }
 
+    /* Botão simples de abrir/fechar filtros */
+    .filter-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn-toggle-filtros {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-toggle-filtros.open {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.16);
+    }
+
+    .active-filter-summary {
+      font-size: 0.78rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .filtros-fechado {
+      display: none;
+    }
+
+    .filtros-aberto {
+      display: block;
+    }
+
     .folder-browser {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 10px 12px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .breadcrumb-bar {
@@ -467,13 +511,30 @@
       min-height: 54px;
       cursor: pointer;
       font-size: 0.96rem;
-      transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+      transition: transform 0.14s ease, border-color 0.15s ease, background 0.15s ease, opacity 0.18s ease;
       display: flex;
       gap: 12px;
       align-items: center;
+      user-select: none;
+      touch-action: pan-y;
     }
 
-    .option-btn:active:not(:disabled) {
+    .option-btn.swiping {
+      transition: none;
+    }
+
+    .option-btn.eliminated {
+      opacity: 0.48;
+      border-style: dashed;
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .option-btn.eliminated .option-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .option-btn:active:not(:disabled):not(.swiping) {
       transform: scale(0.99);
     }
 
@@ -485,11 +546,25 @@
     .option-btn.correct {
       border-color: var(--success);
       background: var(--success-bg);
+      opacity: 1;
+      border-style: solid;
+    }
+
+    .option-btn.correct .option-text {
+      text-decoration: none;
+      color: var(--text);
     }
 
     .option-btn.wrong {
       border-color: var(--danger);
       background: var(--danger-bg);
+      opacity: 1;
+      border-style: solid;
+    }
+
+    .option-btn.wrong .option-text {
+      text-decoration: none;
+      color: var(--text);
     }
 
     .option-letter {
@@ -503,6 +578,10 @@
       justify-content: center;
       font-size: 0.85rem;
       flex-shrink: 0;
+    }
+
+    .responder-wrap {
+      margin-top: 14px;
     }
 
     .comentario {
@@ -519,37 +598,85 @@
       display: block;
     }
 
+    /* Barra inferior estilo QConcursos */
     .bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(18, 22, 33, 0.96);
       backdrop-filter: blur(8px);
-      border-top: 1px solid var(--border);
-      padding: 10px 12px;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
       z-index: 20;
     }
 
     .bottom-bar-inner {
       max-width: 760px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: auto 1fr auto auto;
-      gap: 8px;
+      display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .qcon-nav-btn {
+      background: transparent;
+      color: #e2e8f0;
+      border: none;
+      padding: 10px 10px;
+      min-height: 42px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .qcon-nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .qcon-nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .qcon-goto-btn {
+      background: transparent;
+      color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 12px;
+      padding: 10px 16px;
+      min-height: 42px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .qcon-goto-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .qcon-goto-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
 
     .btn {
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 11px 14px;
-      min-height: 44px;
-      border-radius: 10px;
-      font-weight: 600;
+      padding: 12px 16px;
+      min-height: 46px;
+      border-radius: 11px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.94rem;
       text-align: center;
     }
 
@@ -835,27 +962,40 @@
         <div class="stat-box"><span>Erradas</span><strong id="stat-taxa" style="color: var(--danger)">0</strong></div>
       </div>
 
-      <div class="folder-browser">
-        <div class="breadcrumb-bar" id="folder-breadcrumbs"></div>
-        <div class="folder-grid" id="folder-list"></div>
+      <div class="filter-toggle-row">
+        <button type="button" id="btn-toggle-filtros" class="btn-toggle-filtros" onclick="toggleFiltros()">
+          <span id="icone-toggle-filtros">▸</span>
+          <span>Filtros</span>
+        </button>
+        <span class="active-filter-summary" id="active-filter-summary">Início • Não Feitas</span>
       </div>
 
-      <div class="filters">
-        <select id="filter-status" onchange="aplicarFiltros()">
-          <option value="NAO_RESPONDIDAS">Somente Não Feitas (Sem Repetir)</option>
-          <option value="ERRADAS">Somente Erradas (Revisão)</option>
-          <option value="TODAS">Todas as Questões</option>
-        </select>
+      <div id="area-filtros" class="filtros-fechado">
+        <div class="folder-browser">
+          <div class="breadcrumb-bar" id="folder-breadcrumbs"></div>
+          <div class="folder-grid" id="folder-list"></div>
+        </div>
+
+        <div class="filters">
+          <select id="filter-status" onchange="aplicarFiltros()">
+            <option value="NAO_RESPONDIDAS">Somente Não Feitas (Sem Repetir)</option>
+            <option value="ERRADAS">Somente Erradas (Revisão)</option>
+            <option value="TODAS">Todas as Questões</option>
+          </select>
+        </div>
       </div>
 
       <div id="quiz-area" class="card"></div>
 
+      <div class="responder-wrap" id="responder-wrap">
+        <button class="btn" id="btn-responder" style="width: 100%;" onclick="confirmarResposta()">Responder</button>
+      </div>
+
       <div class="bottom-bar" id="quiz-bottom-bar">
         <div class="bottom-bar-inner">
-          <button class="btn secondary" id="btn-prev" onclick="navegar(-1)">‹ Anterior</button>
-          <button class="btn secondary" id="btn-goto" onclick="abrirModalIrPara()">Ir para questão</button>
-          <button class="btn secondary" id="btn-next" onclick="navegar(1)">Próximo ›</button>
-          <button class="btn" id="btn-responder" onclick="confirmarResposta()">Responder</button>
+          <button class="qcon-nav-btn" id="btn-prev" onclick="navegar(-1)">‹ Anterior</button>
+          <button class="qcon-goto-btn" id="btn-goto" onclick="abrirModalIrPara()">Ir para questão</button>
+          <button class="qcon-nav-btn" id="btn-next" onclick="navegar(1)">Próximo ›</button>
         </div>
       </div>
     </section>
@@ -994,6 +1134,34 @@
     let respondidaNaTela = false;
     let timerAuto = null;
     let periodoDesempenho = "HOJE";
+
+    function toggleFiltros() {
+      const area = document.getElementById("area-filtros");
+      const btn = document.getElementById("btn-toggle-filtros");
+      const icone = document.getElementById("icone-toggle-filtros");
+      const estaAberto = area.classList.contains("filtros-aberto");
+
+      if (estaAberto) {
+        area.classList.remove("filtros-aberto");
+        area.classList.add("filtros-fechado");
+        btn.classList.remove("open");
+        icone.textContent = "▸";
+      } else {
+        area.classList.remove("filtros-fechado");
+        area.classList.add("filtros-aberto");
+        btn.classList.add("open");
+        icone.textContent = "▾";
+      }
+    }
+
+    function atualizarResumoFiltro() {
+      const el = document.getElementById("active-filter-summary");
+      if (!el) return;
+      const pastaNome = pastaAtual.length > 0 ? pastaAtual[pastaAtual.length - 1] : "Início";
+      const statusSel = document.getElementById("filter-status");
+      const statusTexto = statusSel ? statusSel.options[statusSel.selectedIndex].text.split(" (")[0] : "";
+      el.textContent = `${pastaNome} • ${statusTexto}`;
+    }
 
     function normalizarEmail(email) {
       return String(email || "").trim().toLowerCase();
@@ -1216,6 +1384,7 @@
         const { pKey } = chavesUsuario(usuarioEmail);
         localStorage.setItem(pKey, JSON.stringify(prefs));
       }
+      atualizarResumoFiltro();
     }
 
     async function iniciarSessaoUsuario(emailDigitado) {
@@ -1342,6 +1511,7 @@
       });
 
       listEl.innerHTML = chipsHTML;
+      atualizarResumoFiltro();
     }
 
     function switchTab(tab, btn) {
@@ -1403,6 +1573,71 @@
       indiceAtual = 0;
       atualizarEstatisticas();
       renderizarQuestao();
+    }
+
+    function ativarSwipeAlternativa(btn, idx) {
+      let startX = 0;
+      let deltaX = 0;
+      let arrastando = false;
+      const limiteSwipe = 75;
+
+      function iniciar(clientX) {
+        if (respondidaNaTela) return;
+        startX = clientX;
+        deltaX = 0;
+        arrastando = false;
+      }
+
+      function mover(clientX) {
+        if (respondidaNaTela) return;
+        const diff = clientX - startX;
+        if (diff > 10) {
+          arrastando = true;
+          deltaX = diff;
+          btn.classList.add("swiping");
+          btn.style.transform = `translateX(${Math.min(deltaX, 110)}px)`;
+        }
+      }
+
+      function finalizar() {
+        if (respondidaNaTela) return;
+        btn.classList.remove("swiping");
+        btn.style.transform = "";
+
+        if (arrastando) {
+          if (deltaX >= limiteSwipe) {
+            const estavaEliminada = btn.classList.toggle("eliminated");
+            if (estavaEliminada && alternativaSelecionada === idx) {
+              alternativaSelecionada = null;
+              btn.classList.remove("selected");
+            }
+          }
+          btn.dataset.swiped = "1";
+          setTimeout(() => {
+            delete btn.dataset.swiped;
+          }, 60);
+        }
+
+        arrastando = false;
+        deltaX = 0;
+      }
+
+      btn.addEventListener("touchstart", (e) => iniciar(e.touches[0].clientX), { passive: true });
+      btn.addEventListener("touchmove", (e) => mover(e.touches[0].clientX), { passive: true });
+      btn.addEventListener("touchend", finalizar);
+
+      btn.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return;
+        iniciar(e.clientX);
+        const onMove = (ev) => mover(ev.clientX);
+        const onUp = () => {
+          window.removeEventListener("mousemove", onMove);
+          window.removeEventListener("mouseup", onUp);
+          finalizar();
+        };
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+      });
     }
 
     function renderizarQuestao() {
@@ -1467,9 +1702,9 @@
         <div class="enunciado">${q.enunciado}</div>
         <div class="options" id="options-list">
           ${q.alternativas.map((alt, i) => `
-            <button class="option-btn" id="opt-${i}" onclick="selecionar(${i})">
+            <button type="button" class="option-btn" id="opt-${i}" onclick="selecionar(${i})">
               <span class="option-letter">${letras[i] || (i + 1)}</span>
-              <span>${limparLetraAlternativa(alt)}</span>
+              <span class="option-text">${limparLetraAlternativa(alt)}</span>
             </button>
           `).join("")}
         </div>
@@ -1477,10 +1712,18 @@
           <strong>Fundamentação / Gabarito:</strong><br/>${q.comentario || "Sem comentário cadastrado."}
         </div>
       `;
+
+      document.querySelectorAll(".option-btn").forEach((btn, i) => {
+        ativarSwipeAlternativa(btn, i);
+      });
     }
 
     function selecionar(idx) {
       if (respondidaNaTela) return;
+      const btnClicado = document.getElementById("opt-" + idx);
+      if (!btnClicado || btnClicado.dataset.swiped === "1") return;
+      if (btnClicado.classList.contains("eliminated")) return;
+
       alternativaSelecionada = idx;
       document.querySelectorAll(".option-btn").forEach((btn, i) => {
         btn.classList.toggle("selected", i === idx);
