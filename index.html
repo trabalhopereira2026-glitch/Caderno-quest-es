@@ -37,6 +37,7 @@
       padding: 12px 12px 96px 12px;
       line-height: 1.5;
       min-height: 100vh;
+      overflow-x: clip;
     }
 
     .container {
@@ -441,6 +442,7 @@
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 14px;
+      overflow-x: clip;
     }
 
     .q-meta {
@@ -1577,25 +1579,33 @@
 
     function ativarSwipeAlternativa(btn, idx) {
       let startX = 0;
+      let startY = 0;
       let deltaX = 0;
       let arrastando = false;
       const limiteSwipe = 75;
 
-      function iniciar(clientX) {
+      function iniciar(clientX, clientY) {
         if (respondidaNaTela) return;
         startX = clientX;
+        startY = clientY;
         deltaX = 0;
         arrastando = false;
       }
 
-      function mover(clientX) {
+      function mover(clientX, clientY, event) {
         if (respondidaNaTela) return;
-        const diff = clientX - startX;
-        if (diff > 10) {
+        const diffX = clientX - startX;
+        const diffY = Math.abs(clientY - startY);
+
+        if (!arrastando && diffX > 12 && diffX > diffY * 1.4) {
           arrastando = true;
-          deltaX = diff;
           btn.classList.add("swiping");
-          btn.style.transform = `translateX(${Math.min(deltaX, 110)}px)`;
+        }
+
+        if (arrastando) {
+          if (event && event.cancelable) event.preventDefault();
+          deltaX = Math.max(0, diffX);
+          btn.style.transform = `translateX(${Math.min(deltaX, 90)}px)`;
         }
       }
 
@@ -1622,14 +1632,22 @@
         deltaX = 0;
       }
 
-      btn.addEventListener("touchstart", (e) => iniciar(e.touches[0].clientX), { passive: true });
-      btn.addEventListener("touchmove", (e) => mover(e.touches[0].clientX), { passive: true });
+      btn.addEventListener("touchstart", (e) => {
+        const t = e.touches[0];
+        iniciar(t.clientX, t.clientY);
+      }, { passive: true });
+
+      btn.addEventListener("touchmove", (e) => {
+        const t = e.touches[0];
+        mover(t.clientX, t.clientY, e);
+      }, { passive: false });
+
       btn.addEventListener("touchend", finalizar);
 
       btn.addEventListener("mousedown", (e) => {
         if (e.button !== 0) return;
-        iniciar(e.clientX);
-        const onMove = (ev) => mover(ev.clientX);
+        iniciar(e.clientX, e.clientY);
+        const onMove = (ev) => mover(ev.clientX, ev.clientY, ev);
         const onUp = () => {
           window.removeEventListener("mousemove", onMove);
           window.removeEventListener("mouseup", onUp);
