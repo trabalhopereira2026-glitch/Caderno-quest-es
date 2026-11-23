@@ -1154,19 +1154,19 @@
     async function sincronizarComSupabase(mostrarFeedback = false) {
       setSyncStatus("Sincronizando...", "#fde047");
       try {
-        const idsLocaisAntes = new Set(questoes.map(q => q.id));
         const remotasQuestoes = await sbFetch("questoes?select=id,materia,assunto,enunciado,alternativas,correta,comentario&limit=2000");
 
-        const mescladas = fazerMergeQuestoesPorId(questoes, remotasQuestoes || []);
-        questoes = mescladas;
-        localStorage.setItem(STORAGE_KEY_Q, JSON.stringify(questoes));
-
-        const faltantesNoBanco = questoes.filter(q => {
-          const jaEstavaNoBanco = (remotasQuestoes || []).some(r => r.id === q.id);
-          return !jaEstavaNoBanco && idsLocaisAntes.has(q.id);
-        });
-        if (faltantesNoBanco.length > 0) {
-          await enviarQuestoesEmLotes(faltantesNoBanco);
+        if (Array.isArray(remotasQuestoes)) {
+          questoes = remotasQuestoes.map(r => sanitizarQuestao({
+            id: r.id,
+            materia: r.materia,
+            assunto: r.assunto,
+            enunciado: r.enunciado,
+            alternativas: Array.isArray(r.alternativas) ? r.alternativas : [],
+            correta: r.correta,
+            comentario: r.comentario
+          }));
+          localStorage.setItem(STORAGE_KEY_Q, JSON.stringify(questoes));
         }
 
         const emailEncoded = encodeURIComponent(usuarioEmail);
