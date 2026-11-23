@@ -63,11 +63,6 @@
       letter-spacing: -0.01em;
     }
 
-    .sync-status {
-      font-size: 0.76rem;
-      color: var(--muted);
-    }
-
     .auto-controls {
       display: inline-flex;
       align-items: center;
@@ -156,6 +151,7 @@
       font-size: 1.05rem;
     }
 
+    /* Navegação em Pastas e Subpastas */
     .folder-browser {
       background: var(--card);
       border: 1px solid var(--border);
@@ -423,6 +419,7 @@
       display: none !important;
     }
 
+    /* Estilos da aba Desempenho */
     .period-tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -555,6 +552,7 @@
       color: var(--muted);
     }
 
+    /* Modal Ir para questão */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -594,16 +592,12 @@
       gap: 10px;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="top-row">
-        <div>
-          <h1 id="app-title">CADERNO DE QUESTÕES</h1>
-          <div class="sync-status" id="sync-status">Supabase: aguardando configuração</div>
-        </div>
+        <h1 id="app-title">CADERNO DE QUESTÕES</h1>
         <div class="auto-controls">
           <label class="auto-toggle" title="Avança automaticamente após responder">
             <input type="checkbox" id="auto-next" onchange="salvarPreferencias()" />
@@ -632,6 +626,7 @@
         <div class="stat-box"><span>Erradas</span><strong id="stat-taxa" style="color: var(--danger)">0</strong></div>
       </div>
 
+      <!-- Navegador hierárquico de Pastas e Subpastas -->
       <div class="folder-browser">
         <div class="breadcrumb-bar" id="folder-breadcrumbs"></div>
         <div class="folder-grid" id="folder-list"></div>
@@ -740,6 +735,7 @@
     </section>
   </div>
 
+  <!-- Modal Ir para Questão -->
   <div id="modal-goto" class="modal-backdrop hidden" onclick="fecharModalIrPara(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
       <h3 style="font-size:1rem; margin-bottom:8px;">Ir para questão</h3>
@@ -753,29 +749,6 @@
   </div>
 
   <script>
-    // =========================================================================
-    // CONFIGURAÇÃO DO SUPABASE — PREENCHA COM A URL E CHAVE DO SEU PROJETO
-    // =========================================================================
-    const SUPABASE_URL = "https://epaldruyrmrjuxmoruht.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_u7i_e6Rs6MgYe1Ha97Zzng_5dFj0_kC";
-    const TABELA_QUESTOES = "questoes";
-    const TABELA_HISTORICO = "historico_respostas";
-
-    const supabaseClient = (
-      window.supabase &&
-      SUPABASE_URL.startsWith("http") &&
-      SUPABASE_ANON_KEY.length > 20
-    ) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-    function setSyncStatus(texto) {
-      const el = document.getElementById("sync-status");
-      if (el) el.textContent = texto;
-    }
-
-    function limparLetraAlternativa(texto) {
-      return String(texto ?? "").replace(/^[A-Ea-e]\)\s*/, "");
-    }
-
     const CAMINHO_PADRAO_CTB = "LEGISLAÇÃO EXTRAVAGANTE > CTB > INFRAÇÕES";
 
     const QUESTOES_INICIAIS = [
@@ -926,15 +899,13 @@
     }
 
     function embaralharAlternativasQuestao(q) {
-      const limpas = (q.alternativas || []).map(limparLetraAlternativa);
-      const idxCorreta = Math.min(Math.max(0, Number(q.correta) || 0), Math.max(0, limpas.length - 1));
-      const corretaTexto = limpas[idxCorreta];
-      const novasAlternativas = shuffleArray(limpas);
+      const corretaTexto = q.alternativas[q.correta];
+      const novasAlternativas = shuffleArray(q.alternativas);
       const novoIndice = novasAlternativas.indexOf(corretaTexto);
       return {
         ...q,
         alternativas: novasAlternativas,
-        correta: novoIndice >= 0 ? novoIndice : 0
+        correta: novoIndice
       };
     }
 
@@ -953,8 +924,7 @@
     let questoesSalvas = JSON.parse(localStorage.getItem(STORAGE_KEY_Q));
     let questoes = (questoesSalvas || QUESTOES_INICIAIS.map(embaralharAlternativasQuestao)).map(q => ({
       ...q,
-      materia: normalizarCaminho(q.materia),
-      alternativas: Array.isArray(q.alternativas) ? q.alternativas.map(limparLetraAlternativa) : []
+      materia: normalizarCaminho(q.materia)
     }));
 
     let historico = JSON.parse(localStorage.getItem(STORAGE_KEY_H)) || {};
@@ -988,112 +958,6 @@
       localStorage.setItem(STORAGE_KEY_Q, JSON.stringify(questoes));
       localStorage.setItem(STORAGE_KEY_H, JSON.stringify(historico));
       localStorage.setItem(STORAGE_KEY_L, JSON.stringify(logsRespostas));
-    }
-
-    async function salvarQuestoesSupabase(listaQuestoes) {
-      if (!supabaseClient || !listaQuestoes || listaQuestoes.length === 0) return;
-      setSyncStatus("Supabase: salvando questões...");
-      const payload = listaQuestoes.map(q => ({
-        id: String(q.id),
-        materia: normalizarCaminho(q.materia),
-        assunto: q.assunto || "",
-        enunciado: q.enunciado,
-        alternativas: Array.isArray(q.alternativas) ? q.alternativas.map(limparLetraAlternativa) : [],
-        correta: Number(q.correta),
-        comentario: q.comentario || ""
-      }));
-      const { error } = await supabaseClient
-        .from(TABELA_QUESTOES)
-        .upsert(payload, { onConflict: "id" });
-      if (error) {
-        console.error("Erro Supabase (questões):", error);
-        setSyncStatus("Supabase: erro ao salvar questões");
-      } else {
-        setSyncStatus("Supabase: sincronizado");
-      }
-    }
-
-    async function salvarRespostaSupabase(questaoId, acertou, ts) {
-      if (!supabaseClient) return;
-      setSyncStatus("Supabase: salvando resposta...");
-      const registroId = `${questaoId}_${ts}`;
-      const { error } = await supabaseClient
-        .from(TABELA_HISTORICO)
-        .upsert([{
-          id: registroId,
-          questao_id: String(questaoId),
-          acertou: !!acertou,
-          respondido_em: Number(ts)
-        }], { onConflict: "id" });
-      if (error) {
-        console.error("Erro Supabase (histórico):", error);
-        setSyncStatus("Supabase: erro ao salvar resposta");
-      } else {
-        setSyncStatus("Supabase: sincronizado");
-      }
-    }
-
-    async function limparHistoricoSupabase() {
-      if (!supabaseClient) return;
-      const { error } = await supabaseClient
-        .from(TABELA_HISTORICO)
-        .delete()
-        .neq("id", "");
-      if (error) console.error("Erro ao limpar histórico no Supabase:", error);
-    }
-
-    async function carregarDoSupabase() {
-      if (!supabaseClient) {
-        setSyncStatus("Supabase: modo local (cole URL e chave no código)");
-        return;
-      }
-      setSyncStatus("Supabase: carregando...");
-      try {
-        const { data: qData, error: qErr } = await supabaseClient
-          .from(TABELA_QUESTOES)
-          .select("*");
-
-        if (qErr) throw qErr;
-
-        if (qData && qData.length > 0) {
-          questoes = qData.map(item => ({
-            id: item.id,
-            materia: normalizarCaminho(item.materia),
-            assunto: item.assunto || "",
-            enunciado: item.enunciado,
-            alternativas: Array.isArray(item.alternativas) ? item.alternativas.map(limparLetraAlternativa) : [],
-            correta: Number(item.correta),
-            comentario: item.comentario || ""
-          }));
-        } else {
-          await salvarQuestoesSupabase(questoes);
-        }
-
-        const { data: hData, error: hErr } = await supabaseClient
-          .from(TABELA_HISTORICO)
-          .select("*");
-
-        if (!hErr && Array.isArray(hData) && hData.length > 0) {
-          const novoHist = {};
-          const novosLogs = [];
-          hData.forEach(row => {
-            const ts = Number(row.respondido_em) || Date.now();
-            const ok = !!row.acertou;
-            novoHist[row.questao_id] = ok;
-            novosLogs.push({ id: row.questao_id, correta: ok, ts });
-          });
-          historico = novoHist;
-          logsRespostas = novosLogs;
-        }
-
-        salvarLocal();
-        setSyncStatus("Supabase: sincronizado");
-        renderizarNavegadorPastas();
-        aplicarFiltros();
-      } catch (err) {
-        console.error("Erro ao carregar do Supabase:", err);
-        setSyncStatus("Supabase: offline / usando cache local");
-      }
     }
 
     function salvarPreferencias() {
@@ -1298,7 +1162,7 @@
           ${q.alternativas.map((alt, i) => `
             <button class="option-btn" id="opt-${i}" onclick="selecionar(${i})">
               <span class="option-letter">${letras[i] || (i + 1)}</span>
-              <span>${limparLetraAlternativa(alt)}</span>
+              <span>${alt}</span>
             </button>
           `).join("")}
         </div>
@@ -1322,15 +1186,13 @@
 
       const q = filtradas[indiceAtual];
       const acertou = alternativaSelecionada === q.correta;
-      const ts = Date.now();
       historico[q.id] = acertou;
       logsRespostas.push({
         id: q.id,
         correta: acertou,
-        ts: ts
+        ts: Date.now()
       });
       salvarLocal();
-      salvarRespostaSupabase(q.id, acertou, ts);
       atualizarEstatisticas();
 
       document.querySelectorAll(".option-btn").forEach((btn, i) => {
@@ -1482,35 +1344,31 @@
       }).join("");
     }
 
-    async function importarJSON() {
+    function importarJSON() {
       const msg = document.getElementById("import-msg");
       try {
         const dados = JSON.parse(document.getElementById("json-input").value);
         if (!Array.isArray(dados)) throw new Error("O formato precisa ser uma lista [ ... ]");
 
         let adicionadas = 0;
-        const novasParaSupabase = [];
         dados.forEach((item, idx) => {
           if (item.enunciado && Array.isArray(item.alternativas) && typeof item.correta === "number") {
             const caminhoMateria = normalizarCaminho(item.materia || CAMINHO_PADRAO_CTB);
-            const alternativasLimpa = item.alternativas.map(limparLetraAlternativa);
             const qNova = embaralharAlternativasQuestao({
               id: "q_" + Date.now() + "_" + idx,
               materia: caminhoMateria,
               assunto: item.assunto || "",
               enunciado: item.enunciado,
-              alternativas: alternativasLimpa,
+              alternativas: item.alternativas,
               correta: item.correta,
               comentario: item.comentario || ""
             });
             questoes.push(qNova);
-            novasParaSupabase.push(qNova);
             adicionadas++;
           }
         });
 
         salvarLocal();
-        await salvarQuestoesSupabase(novasParaSupabase);
         document.getElementById("json-input").value = "";
         msg.style.color = "var(--success)";
         msg.textContent = `✓ ${adicionadas} questão(ões) adicionada(s) com sucesso!`;
@@ -1550,12 +1408,11 @@
       }
     }
 
-    async function resetarHistorico() {
+    function resetarHistorico() {
       const msg = document.getElementById("backup-msg");
       historico = {};
       logsRespostas = [];
       salvarLocal();
-      await limparHistoricoSupabase();
       atualizarEstatisticas();
       renderizarQuestao();
       renderizarDesempenho();
@@ -1563,15 +1420,13 @@
       msg.textContent = "✓ Histórico de acertos, erros e desempenho zerado.";
     }
 
-    async function resetarTudo() {
+    function resetarTudo() {
       const msg = document.getElementById("backup-msg");
       questoes = shuffleArray(QUESTOES_INICIAIS).map(embaralharAlternativasQuestao);
       historico = {};
       logsRespostas = [];
       pastaAtual = [];
       salvarLocal();
-      await limparHistoricoSupabase();
-      await salvarQuestoesSupabase(questoes);
       renderizarNavegadorPastas();
       aplicarFiltros();
       renderizarDesempenho();
@@ -1581,7 +1436,6 @@
 
     renderizarNavegadorPastas();
     aplicarFiltros();
-    carregarDoSupabase();
   </script>
 </body>
 </html>
