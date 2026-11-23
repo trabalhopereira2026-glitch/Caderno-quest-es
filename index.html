@@ -959,7 +959,7 @@
 
   <script>
     const SUPABASE_URL = "https://epaldruyrmrjuxmoruht.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwYWxkcnV5cm1yanV4bW9ydWh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNTkxMjYsImV4cCI6MjA4NjYzNTEyNn0.jD_l_EED7mC87q7M4gG-M0U459R6m3D6j7z1jO1h99A";
+    const SUPABASE_ANON_KEY = "sb_publishable_u7i_e6Rs6MgYe1Ha97Zzng_5dFj0_kC";
     const CAMINHO_PADRAO_CTB = "LEGISLAÇÃO EXTRAVAGANTE > CTB > INFRAÇÕES";
     const CHAVE_EMAIL_ATIVO = "caderno_prf_usuario_email_v1";
 
@@ -1161,7 +1161,6 @@
         questoes = mescladas;
         localStorage.setItem(STORAGE_KEY_Q, JSON.stringify(questoes));
 
-        // Envia para o banco as questões que só existiam localmente
         const faltantesNoBanco = questoes.filter(q => {
           const jaEstavaNoBanco = (remotasQuestoes || []).some(r => r.id === q.id);
           return !jaEstavaNoBanco && idsLocaisAntes.has(q.id);
@@ -1170,7 +1169,6 @@
           await enviarQuestoesEmLotes(faltantesNoBanco);
         }
 
-        // Busca histórico exclusivo deste usuário_email
         const emailEncoded = encodeURIComponent(usuarioEmail);
         const remotasHist = await sbFetch(`historico_respostas?usuario_email=eq.${emailEncoded}&order=ts.asc&limit=5000`);
 
@@ -1187,7 +1185,6 @@
             });
           });
 
-          // Mescla preservando logs locais recentes e evitando duplicatas exatas
           const vistos = new Set(logsBanco.map(l => `${l.id}_${l.ts}_${l.correta}`));
           logsRespostas.forEach(l => {
             const chave = `${l.id}_${l.ts}_${l.correta}`;
