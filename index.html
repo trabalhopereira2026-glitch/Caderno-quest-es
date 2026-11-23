@@ -772,6 +772,10 @@
       if (el) el.textContent = texto;
     }
 
+    function limparLetraAlternativa(texto) {
+      return String(texto ?? "").replace(/^[A-Ea-e]\)\s*/, "");
+    }
+
     const CAMINHO_PADRAO_CTB = "LEGISLAÇÃO EXTRAVAGANTE > CTB > INFRAÇÕES";
 
     const QUESTOES_INICIAIS = [
@@ -922,13 +926,15 @@
     }
 
     function embaralharAlternativasQuestao(q) {
-      const corretaTexto = q.alternativas[q.correta];
-      const novasAlternativas = shuffleArray(q.alternativas);
+      const limpas = (q.alternativas || []).map(limparLetraAlternativa);
+      const idxCorreta = Math.min(Math.max(0, Number(q.correta) || 0), Math.max(0, limpas.length - 1));
+      const corretaTexto = limpas[idxCorreta];
+      const novasAlternativas = shuffleArray(limpas);
       const novoIndice = novasAlternativas.indexOf(corretaTexto);
       return {
         ...q,
         alternativas: novasAlternativas,
-        correta: novoIndice
+        correta: novoIndice >= 0 ? novoIndice : 0
       };
     }
 
@@ -947,7 +953,8 @@
     let questoesSalvas = JSON.parse(localStorage.getItem(STORAGE_KEY_Q));
     let questoes = (questoesSalvas || QUESTOES_INICIAIS.map(embaralharAlternativasQuestao)).map(q => ({
       ...q,
-      materia: normalizarCaminho(q.materia)
+      materia: normalizarCaminho(q.materia),
+      alternativas: Array.isArray(q.alternativas) ? q.alternativas.map(limparLetraAlternativa) : []
     }));
 
     let historico = JSON.parse(localStorage.getItem(STORAGE_KEY_H)) || {};
@@ -991,7 +998,7 @@
         materia: normalizarCaminho(q.materia),
         assunto: q.assunto || "",
         enunciado: q.enunciado,
-        alternativas: q.alternativas,
+        alternativas: Array.isArray(q.alternativas) ? q.alternativas.map(limparLetraAlternativa) : [],
         correta: Number(q.correta),
         comentario: q.comentario || ""
       }));
@@ -1054,7 +1061,7 @@
             materia: normalizarCaminho(item.materia),
             assunto: item.assunto || "",
             enunciado: item.enunciado,
-            alternativas: Array.isArray(item.alternativas) ? item.alternativas : [],
+            alternativas: Array.isArray(item.alternativas) ? item.alternativas.map(limparLetraAlternativa) : [],
             correta: Number(item.correta),
             comentario: item.comentario || ""
           }));
@@ -1291,7 +1298,7 @@
           ${q.alternativas.map((alt, i) => `
             <button class="option-btn" id="opt-${i}" onclick="selecionar(${i})">
               <span class="option-letter">${letras[i] || (i + 1)}</span>
-              <span>${alt}</span>
+              <span>${limparLetraAlternativa(alt)}</span>
             </button>
           `).join("")}
         </div>
@@ -1486,12 +1493,13 @@
         dados.forEach((item, idx) => {
           if (item.enunciado && Array.isArray(item.alternativas) && typeof item.correta === "number") {
             const caminhoMateria = normalizarCaminho(item.materia || CAMINHO_PADRAO_CTB);
+            const alternativasLimpa = item.alternativas.map(limparLetraAlternativa);
             const qNova = embaralharAlternativasQuestao({
               id: "q_" + Date.now() + "_" + idx,
               materia: caminhoMateria,
               assunto: item.assunto || "",
               enunciado: item.enunciado,
-              alternativas: item.alternativas,
+              alternativas: alternativasLimpa,
               correta: item.correta,
               comentario: item.comentario || ""
             });
