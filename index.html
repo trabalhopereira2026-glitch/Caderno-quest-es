@@ -962,6 +962,7 @@
     const SUPABASE_ANON_KEY = "sb_publishable_u7i_e6Rs6MgYe1Ha97Zzng_5dFj0_kC";
     const CAMINHO_PADRAO_CTB = "LEGISLAÇÃO EXTRAVAGANTE > CTB > INFRAÇÕES";
     const CHAVE_EMAIL_ATIVO = "caderno_prf_usuario_email_v1";
+    const STORAGE_KEY_Q = "app_questoes_prf_global_v2";
 
     const QUESTOES_INICIAIS = [
       { id: "ctb_162_1", materia: CAMINHO_PADRAO_CTB, assunto: "Art. 162, I — Habilitação", enunciado: "Dirigir veículo sem possuir Carteira Nacional de Habilitação, Permissão para Dirigir ou Autorização para Conduzir Ciclomotor configura infração de natureza:", alternativas: ["Grave", "Média", "Gravíssima", "Leve"], correta: 2, comentario: "Art. 162, I, CTB: Infração gravíssima; penalidade de multa (3x) e retenção do veículo até apresentação de condutor habilitado." },
@@ -1059,8 +1060,6 @@
       };
     }
 
-    const STORAGE_KEY_Q = "app_questoes_prf_global_v2";
-
     function setSyncStatus(texto, cor = "#93c5fd") {
       const el = document.getElementById("sync-status");
       if (!el) return;
@@ -1128,27 +1127,6 @@
         console.error("Erro ao salvar resposta no Supabase:", err);
         setSyncStatus("Salvo local (offline)", "#fde047");
       }
-    }
-
-    function fazerMergeQuestoesPorId(locais, remotas) {
-      const mapa = new Map();
-      (locais || []).forEach(q => {
-        const s = sanitizarQuestao(q);
-        mapa.set(s.id, s);
-      });
-      (remotas || []).forEach(r => {
-        const s = sanitizarQuestao({
-          id: r.id,
-          materia: r.materia,
-          assunto: r.assunto,
-          enunciado: r.enunciado,
-          alternativas: Array.isArray(r.alternativas) ? r.alternativas : [],
-          correta: r.correta,
-          comentario: r.comentario
-        });
-        mapa.set(s.id, s);
-      });
-      return Array.from(mapa.values());
     }
 
     async function sincronizarComSupabase(mostrarFeedback = false) {
@@ -1681,6 +1659,7 @@
         const dados = JSON.parse(document.getElementById("json-input").value);
         if (!Array.isArray(dados)) throw new Error("O formato precisa ser uma lista [ ... ]");
 
+        const mapaQuestoes = new Map(questoes.map(q => [q.id, sanitizarQuestao(q)]));
         const novasParaBanco = [];
         let adicionadas = 0;
 
@@ -1700,12 +1679,13 @@
               comentario: item.comentario || ""
             });
 
-            questoes = fazerMergeQuestoesPorId(questoes, [qLimpa]);
+            mapaQuestoes.set(qLimpa.id, qLimpa);
             novasParaBanco.push(qLimpa);
             adicionadas++;
           }
         });
 
+        questoes = Array.from(mapaQuestoes.values());
         salvarLocalUsuario();
         document.getElementById("json-input").value = "";
         renderizarNavegadorPastas();
